@@ -1,4 +1,5 @@
 # bright-web
 Bright Webpage - Draft
 
-testing/index.html
+## Demo
+👉 [Klik di sini untuk membuka index.html](https://mahdyynn.github.io/bright-web/testing/index.html)
