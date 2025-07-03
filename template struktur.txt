@@ -1,0 +1,52 @@
+?? ub-magazine/
++-- ?? public/                  ? Aset publik (gambar, favicon, PDF)
+¦   +-- images/
+¦   +-- uploads/
++-- ?? content/                 ? Artikel dalam format Markdown/MDX
+¦   +-- current-issue/
+¦   +-- past-issues/
++-- ?? pages/                   ? Routing halaman (Next.js / Astro)
+¦   +-- index.tsx              ? Homepage
+¦   +-- topics/
+¦   ¦   +-- health.tsx
+¦   ¦   +-- science.tsx
+¦   ¦   +-- social.tsx
+¦   +-- magazine/
+¦   ¦   +-- index.tsx          ? List semua issue
+¦   ¦   +-- [slug].tsx         ? Halaman detail edisi
+¦   +-- series/
+¦   +-- class-notes/
+¦   +-- about.tsx
+¦   +-- support.tsx
++-- ?? components/             ? Reusable UI (navbar, footer, card, etc.)
+¦   +-- Header.tsx
+¦   +-- Footer.tsx
+¦   +-- ArticleCard.tsx
+¦   +-- Sidebar.tsx
++-- ?? styles/                 ? File CSS / Tailwind / SCSS
+¦   +-- globals.css
++-- ?? lib/                    ? Helper function, metadata loader
+¦   +-- getArticles.ts
++-- ?? data/                   ? Metadata artikel (JSON, YAML, CSV)
+¦   +-- articles.json
++-- ?? public_api/             ? (Opsional) API endpoint lokal
+¦   +-- newsletter.ts
++-- .gitignore
++-- package.json
++-- tsconfig.json
++-- README.md
+
+
+
+CATATAN
+Jika pakai Next.js atau Astro, folder pages/ atau src/pages/ akan jadi pusat routing.
+
+Jika pakai WordPress, struktur ini bisa jadi acuan untuk konten dan tema (wp-content/themes/ub-magazine).
+
+Artikel bisa disimpan sebagai Markdown (MDX) agar mudah diproses dan diubah ke HTML secara dinamis.
+
+Folder content/ adalah tempat utama menyimpan artikel BRIGHT per edisi.
+
+
+
+

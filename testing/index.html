@@ -1,0 +1,556 @@
+<!-- tailwindcss.com CDN example -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>BRIGHT</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // Dropdown toggle
+      const dropdowns = document.querySelectorAll('.dropdown');
+    
+      dropdowns.forEach(dropdown => {
+        const button = dropdown.querySelector('.dropdown-button');
+        const menu = dropdown.querySelector('.dropdown-content');
+    
+        button.addEventListener('click', (e) => {
+          e.stopPropagation();
+          menu.classList.toggle('hidden');
+          dropdowns.forEach(d => {
+            if (d !== dropdown) {
+              d.querySelector('.dropdown-content').classList.add('hidden');
+            }
+          });
+        });
+      });
+    
+      document.addEventListener('click', () => {
+        dropdowns.forEach(dropdown => {
+          dropdown.querySelector('.dropdown-content').classList.add('hidden');
+        });
+      });
+    
+      // Counter animation
+      const counters = document.querySelectorAll(".stat-number");
+      counters.forEach((counter) => {
+        const updateCount = () => {
+          const target = +counter.getAttribute("data-target");
+          const count = +counter.innerText.replace(/\D/g, '');
+          const increment = target / 100;
+    
+          if (count < target) {
+            counter.innerText = Math.ceil(count + increment).toLocaleString();
+            setTimeout(updateCount, 20);
+          } else {
+            counter.innerText = target.toLocaleString();
+          }
+        };
+        updateCount();
+      });
+    
+      // View More / Less toggle
+      const viewMoreBtn = document.getElementById('view-more-btn');
+      const viewLessBtn = document.getElementById('view-less-btn');
+      const articleRows = document.querySelectorAll('.article-row');
+      let currentVisibleRows = 1;
+    
+      if (articleRows.length <= 1) viewLessBtn.classList.add('hidden');
+      articleRows.forEach((row, index) => {
+        if (index > 0) row.classList.add('hidden');
+      });
+    
+      viewMoreBtn?.addEventListener('click', function() {
+        if (currentVisibleRows < articleRows.length) {
+          articleRows[currentVisibleRows].classList.remove('hidden');
+          currentVisibleRows++;
+        }
+        if (currentVisibleRows >= articleRows.length) {
+          viewMoreBtn.classList.add('hidden');
+        }
+        if (currentVisibleRows > 1) {
+          viewLessBtn.classList.remove('hidden');
+        }
+      });
+    
+      viewLessBtn?.addEventListener('click', function() {
+        articleRows.forEach((row, index) => {
+          if (index > 0) row.classList.add('hidden');
+        });
+        currentVisibleRows = 1;
+        viewMoreBtn.classList.remove('hidden');
+        viewLessBtn.classList.add('hidden');
+      });
+    });
+    </script>
+
+  <style>
+    .search-section {
+      padding: 20px;
+      background: #042338;
+      border-radius: 8px;
+      margin-bottom: 30px;
+      color: white;
+    }
+    .search-input-group {
+      display: flex;
+      margin-bottom: 15px;
+    }
+    .search-input {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px 0 0 4px;
+    }
+    .search-button {
+      padding: 10px 15px;
+      background: #FF9907;
+      color: white;
+      border: none;
+      border-radius: 0 4px 4px 0;
+      cursor: pointer;
+    }
+    .advanced-filters {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+    .filter-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    .stat-item {
+      text-align: center;
+      padding: 15px;
+      background: #eaf4ff;
+      border-radius: 4px;
+    }
+    .title-bar {
+      text-align: center;
+      font-family: "Belriner Regular";
+      font-size: 1.8em;
+      font-weight: bold;
+      padding: 0.5em 0;
+      background-color: #042338;
+      color: white;
+    }
+    nav a {
+      color: #FFB854;
+    }
+    nav .dropdown-button:hover {
+      color: #FF9907;
+    }
+    .rektor-section {
+      background: #f9f9f9;
+    }
+    .right-now-section {
+      background-color: #F5F6F7;
+    }
+    footer {
+      background-color: #0D283D;
+      color: white;
+    }
+    footer a {
+      color: #FF9907;
+    }
+  </style>
+</head>
+<body class="bg-gray-50">
+<!-- Konten HTML tetap, bagian utama sudah disesuaikan dengan warna sesuai permintaan -->
+
+
+</head>
+<body>
+
+    <div class="title-bar">BRIGHT</div>
+
+  <!-- Navbar -->
+<!-- Navbar -->
+<header class="bg-white shadow-md sticky top-0 z-50" style="background: #00406C; color: white">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+      <nav class="flex space-x-6 text-sm relative">
+        <!-- Topics Dropdown -->
+        <div class="relative group">
+          <button class="hover:underline flex items-center focus:outline-none">
+            <span>Topics</span>
+            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="group-hover:flex hidden flex-col absolute left-0 mt-2 w-48 bg-[#003355] text-white rounded-md shadow-lg py-1 z-50" onmouseover="this.classList.add('flex')" onmouseout="this.classList.remove('flex')">
+            <a href="#" class="block px-4 py-2 text-sm hover:bg-[#004C7C]">Health & Medicine</a>
+            <a href="#" class="block px-4 py-2 text-sm hover:bg-[#004C7C]">Science & Technology</a>
+            <a href="#" class="block px-4 py-2 text-sm hover:bg-[#004C7C]">Agriculture & Environment</a>
+            <a href="#" class="block px-4 py-2 text-sm hover:bg-[#004C7C]">Social & Humanities</a>
+            <a href="#" class="block px-4 py-2 text-sm hover:bg-[#004C7C]">Engineering & Innovation</a>
+          </div>
+        </div>
+  
+        <!-- Advanced Search Dropdown -->
+        <div class="relative group">
+          <button class="hover:underline flex items-center focus:outline-none">
+            <span>Advanced Search</span>
+            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="group-hover:flex hidden flex-col absolute left-0 mt-2 w-48 bg-[#003355] text-white rounded-md shadow-lg py-1 z-50" onmouseover="this.classList.add('flex')" onmouseout="this.classList.remove('flex')">
+            <a href="#" class="block px-4 py-2 text-sm hover:bg-[#004C7C]">By Title</a>
+            <a href="#" class="block px-4 py-2 text-sm hover:bg-[#004C7C]">By Authors</a>
+            <a href="#" class="block px-4 py-2 text-sm hover:bg-[#004C7C]">By Collections</a>
+            <a href="#" class="block px-4 py-2 text-sm hover:bg-[#004C7C]">By Publication Year</a>
+            <a href="#" class="block px-4 py-2 text-sm hover:bg-[#004C7C]">By Subject</a>
+          </div>
+        </div>
+  
+        <!-- Document/Unduh Dropdown -->
+        <div class="relative group">
+          <button class="hover:underline flex items-center focus:outline-none">
+            <span>Document/Unduh</span>
+            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="group-hover:flex hidden flex-col absolute left-0 mt-2 w-48 bg-[#003355] text-white rounded-md shadow-lg py-1 z-50" onmouseover="this.classList.add('flex')" onmouseout="this.classList.remove('flex')">
+            <a href="#" class="block px-4 py-2 text-sm hover:bg-[#004C7C]">Unduhan PDF</a>
+            <a href="#" class="block px-4 py-2 text-sm hover:bg-[#004C7C]">Dokumen Artikel</a>
+            <a href="#" class="block px-4 py-2 text-sm hover:bg-[#004C7C]">Majalah Bright</a>
+          </div>
+        </div>
+  
+        <!-- About Dropdown -->
+        <div class="relative group">
+          <button onclick="topics.html" class="hover:underline flex items-center focus:outline-none">
+            <span>About</span>
+            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="group-hover:flex hidden flex-col absolute left-0 mt-2 w-48 bg-[#003355] text-white rounded-md shadow-lg py-1 z-50" onmouseover="this.classList.add('flex')" onmouseout="this.classList.remove('flex')">
+            <a href="#" class="block px-4 py-2 text-sm hover:bg-[#004C7C]">Tentang Kami</a>
+            <a href="#" class="block px-4 py-2 text-sm hover:bg-[#004C7C]">Visi/Misi</a>
+            <a href="#" class="block px-4 py-2 text-sm hover:bg-[#004C7C]">Tim Editorial</a>
+            <a href="#" class="block px-4 py-2 text-sm hover:bg-[#004C7C]">Kontak</a>
+          </div>
+        </div>
+  
+        <!-- Contact Us (no dropdown) -->
+        <a href="#" class="hover:underline">Contact Us</a>
+      </nav>
+    </div>
+  </header>
+  
+
+  <!-- Hero Section -->
+  <section class="relative overflow-hidden bg-black py-16">
+    <!-- Video Background -->
+    <div class="absolute inset-0 w-full h-full overflow-hidden z-0">
+      <video autoplay muted loop playsinline class="w-full h-full object-cover object-center">
+        <source src="../content/bg-hero.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+      <!-- Black Overlay -->
+      <div class="absolute inset-0 bg-black bg-opacity-60"></div>
+    </div>
+  
+    <!-- Foreground Content -->
+    <div class="relative z-10 max-w-7xl mx-auto px-4 grid md:grid-cols-2 items-center gap-6 text-white">
+      <div>
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">Welcome to BRIGHT</h2>
+        <p class="mb-6 text-lg leading-relaxed">BRIGHT adalah wadah publikasi ilmiah yang mendukung semangat inovasi, riset, dan kontribusi dari civitas akademika Universitas Brawijaya.</p>
+        <a href="#" class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded shadow transition">Baca Selengkapnya →</a>
+      </div>
+  
+      <!-- Real Image 
+      <div>
+        <img src="..\content\ub-thumbnail.png" alt="Gambar Artikel"
+             class="rounded-lg shadow-lg object-cover w-full h-64">
+      </div> -->
+    </div>
+  </section>
+<!-- Main Content Container -->
+<div class="main-content">
+    <!-- 1. Search Section -->
+    <section class="search-section">
+        <h2 class="text-2xl font-bold text-center mb-8" style="color=white">Cari Dokumen</h2>
+        <form class="search-form" action="/search" method="get">
+            <!-- Search Input -->
+            <div class="search-input-group">
+                <input 
+                    type="text" 
+                    name="q" 
+                    placeholder="Search by title, author, or keyword..." 
+                    class="search-input"
+                >
+                <button type="submit" class="search-button">
+                    <i class="fas fa-search"></i> Search
+                </button>
+            </div>
+
+            <!-- Advanced Filters (Collapsible) -->
+            <div class="advanced-filters">
+                <div class="filter-group">
+                    <label for="year">Year:</label>
+                    <select id="year" name="year">
+                        <option value="">All Years</option>
+                        <option value="2023">2023</option>
+                        <option value="2022">2022</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="type">Document Type:</label>
+                    <select id="type" name="type">
+                        <option value="">All Types</option>
+                        <option value="thesis">Thesis</option>
+                        <option value="journal">Journal Article</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="faculty">Faculty:</label>
+                    <select id="faculty" name="faculty">
+                        <option value="">All Faculties</option>
+                        <option value="engineering">Engineering</option>
+                        <option value="medicine">Medicine</option>
+                    </select>
+                </div>
+            </div>
+        </form>
+    </section>
+
+    <!-- 2. Quick Stats Section -->
+    <section class="bg-white py-12">
+        <div class="max-w-7xl mx-auto px-4">
+          <h2 class="text-2xl font-bold text-center mb-8">Repository Stats</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 text-center">
+            <div class="bg-blue-50 p-6 rounded shadow">
+              <p class="stat-number text-2xl font-bold text-blue-600" data-target="10000">0</p>
+              <p class="text-gray-600">Total Documents</p>
+            </div>
+            <div class="bg-blue-50 p-6 rounded shadow">
+              <p class="stat-number text-2xl font-bold text-blue-600" data-target="2500">0</p>
+              <p class="text-gray-600">Theses</p>
+            </div>
+            <div class="bg-blue-50 p-6 rounded shadow">
+              <p class="stat-number text-2xl font-bold text-blue-600" data-target="20">0</p>
+              <p class="text-gray-600">Faculties</p>
+            </div>
+            <div class="bg-blue-50 p-6 rounded shadow">
+              <p class="stat-number text-2xl font-bold text-blue-600" data-target="1000000">0</p>
+              <p class="text-gray-600">Downloads</p>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+<!-- Sambutan Rektor -->
+<section class="bg-gray-50 py-12">
+    <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-start gap-6">
+  
+      <!-- Foto Rektor dengan Hover Overlay -->
+      <div class="w-full md:w-auto relative group">
+        <div class="w-48 h-64 overflow-hidden rounded shadow-lg mx-auto">
+          <img src="../content/rektor-ub.jpg"
+               alt="Foto Rektor"
+               class="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105" />
+          <!-- Overlay saat hover -->
+          <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition duration-300 rounded"></div>
+        </div>
+      </div>
+  
+      <!-- Teks Sambutan -->
+      <div class="md:w-2/3 w-full">
+        <h2 class="text-2xl font-bold mb-2">Sambutan Rektor</h2>
+        <h3 class="text-lg font-semibold">Prof. Dr. Widodo, S.Si., M.Si., Ph.D.Med.Sc.</h3>
+        <blockquote class="italic text-blue-700 my-4">
+          "Kami bangga mempersembahkan BRIGHT sebagai wadah inovasi dan pengetahuan dari Universitas Brawijaya kepada dunia."
+        </blockquote>
+        <p class="text-gray-700">
+          Selamat datang di BRIGHT, representasi dari semangat kolaborasi dan pengabdian kami untuk ilmu pengetahuan dan masyarakat luas. Kami percaya setiap riset yang dilakukan di UB adalah kontribusi nyata untuk masa depan Indonesia dan dunia.
+        </p>
+      </div>
+  
+    </div>
+  </section>
+  
+  
+  
+      
+      <!-- Right Now Section (Berita Terkini) -->
+      <section class="bg-white py-12">
+        <div class="max-w-7xl mx-auto px-4">
+          <h3 class="text-2xl font-bold mb-6">Right Now</h3>
+          <div class="grid md:grid-cols-3 gap-6">
+            <div class="bg-gray-100 p-4 rounded shadow hover:shadow-lg transition">
+              <h4 class="text-lg font-semibold mb-2">Update terkini 1</h4>
+              <p class="text-sm text-gray-600">Deskripsi singkat dari berita atau update terkini yang sedang berlangsung di UB atau BRIGHT.</p>
+              <a href="#" class="text-blue-600 text-sm mt-2 inline-block hover:underline">Baca selengkapnya →</a>
+            </div>
+            <div class="bg-gray-100 p-4 rounded shadow hover:shadow-lg transition">
+              <h4 class="text-lg font-semibold mb-2">Update terkini 2</h4>
+              <p class="text-sm text-gray-600">Informasi terbaru mengenai publikasi, seminar, atau event yang berkaitan dengan riset universitas.</p>
+              <a href="#" class="text-blue-600 text-sm mt-2 inline-block hover:underline">Baca selengkapnya →</a>
+            </div>
+            <div class="bg-gray-100 p-4 rounded shadow hover:shadow-lg transition">
+              <h4 class="text-lg font-semibold mb-2">Update terkini 3</h4>
+              <p class="text-sm text-gray-600">Highlight mingguan atau bulanan dari BRIGHT yang menampilkan karya dan peneliti unggulan.</p>
+              <a href="#" class="text-blue-600 text-sm mt-2 inline-block hover:underline">Baca selengkapnya →</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+  <!-- Latest Articles Grid -->
+  <!-- Latest Articles Grid -->
+  <section class="bg-white py-8">
+    <div class="max-w-7xl mx-auto px-4">
+      <h3 class="text-xl font-bold mb-6">Latest Articles</h3>
+      
+      <!-- Baris 1 (Selalu terlihat) -->
+      <div class="article-row grid gap-6 md:grid-cols-3 mb-6">
+        <!-- Artikel 1 -->
+        <div class="bg-gray-50 p-4 rounded-lg shadow hover:shadow-md transition duration-300 border border-gray-200">
+          <div class="h-40 bg-gradient-to-r from-blue-100 to-indigo-100 mb-3 rounded flex items-center justify-center text-gray-400">[Gambar 1]</div>
+          <h4 class="font-semibold mb-1">Pengaruh Pola Makan Terhadap Kesehatan Mental</h4>
+          <p class="text-sm text-gray-600 mb-2">Studi terbaru menunjukkan hubungan signifikan antara konsumsi makanan bergizi dengan penurunan tingkat depresi...</p>
+          <div class="flex justify-between items-center">
+            <span class="text-xs text-gray-500">15 Jan 2023</span>
+            <a href="#" class="text-blue-600 text-sm hover:underline">Baca →</a>
+          </div>
+        </div>
+        
+        <!-- Artikel 2 -->
+        <div class="bg-gray-50 p-4 rounded-lg shadow hover:shadow-md transition duration-300 border border-gray-200">
+          <div class="h-40 bg-gradient-to-r from-green-100 to-teal-100 mb-3 rounded flex items-center justify-center text-gray-400">[Gambar 2]</div>
+          <h4 class="font-semibold mb-1">Inovasi Material Ramah Lingkungan untuk Konstruksi</h4>
+          <p class="text-sm text-gray-600 mb-2">Material baru berbasis limbah pertanian menunjukkan kekuatan yang menjanjikan untuk aplikasi konstruksi berkelanjutan...</p>
+          <div class="flex justify-between items-center">
+            <span class="text-xs text-gray-500">10 Jan 2023</span>
+            <a href="#" class="text-blue-600 text-sm hover:underline">Baca →</a>
+          </div>
+        </div>
+        
+        <!-- Artikel 3 -->
+        <div class="bg-gray-50 p-4 rounded-lg shadow hover:shadow-md transition duration-300 border border-gray-200">
+          <div class="h-40 bg-gradient-to-r from-purple-100 to-pink-100 mb-3 rounded flex items-center justify-center text-gray-400">[Gambar 3]</div>
+          <h4 class="font-semibold mb-1">Dampak Media Sosial pada Perilaku Remaja</h4>
+          <p class="text-sm text-gray-600 mb-2">Analisis longitudinal mengungkapkan pola penggunaan media sosial dan kaitannya dengan perkembangan sosial remaja...</p>
+          <div class="flex justify-between items-center">
+            <span class="text-xs text-gray-500">5 Jan 2023</span>
+            <a href="#" class="text-blue-600 text-sm hover:underline">Baca →</a>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Baris 2 (Hidden by default) -->
+      <div class="article-row hidden grid gap-6 md:grid-cols-3 mb-6">
+        <!-- Artikel 4 -->
+        <div class="bg-gray-50 p-4 rounded-lg shadow hover:shadow-md transition duration-300 border border-gray-200">
+          <div class="h-40 bg-gradient-to-r from-yellow-100 to-orange-100 mb-3 rounded flex items-center justify-center text-gray-400">[Gambar 4]</div>
+          <h4 class="font-semibold mb-1">Terapi Gen untuk Penyakit Langka</h4>
+          <p class="text-sm text-gray-600 mb-2">Penelitian terbaru menunjukkan keberhasilan pendekatan terapi gen dalam mengobati penyakit genetik langka...</p>
+          <div class="flex justify-between items-center">
+            <span class="text-xs text-gray-500">28 Des 2022</span>
+            <a href="#" class="text-blue-600 text-sm hover:underline">Baca →</a>
+          </div>
+        </div>
+        
+        <!-- Artikel 5 -->
+        <div class="bg-gray-50 p-4 rounded-lg shadow hover:shadow-md transition duration-300 border border-gray-200">
+          <div class="h-40 bg-gradient-to-r from-red-100 to-amber-100 mb-3 rounded flex items-center justify-center text-gray-400">[Gambar 5]</div>
+          <h4 class="font-semibold mb-1">Kecerdasan Buatan dalam Diagnosis Medis</h4>
+          <p class="text-sm text-gray-600 mb-2">AI menunjukkan akurasi 95% dalam mendeteksi kanker payudara dari gambar mammogram, lebih tinggi dari rata-rata dokter...</p>
+          <div class="flex justify-between items-center">
+            <span class="text-xs text-gray-500">20 Des 2022</span>
+            <a href="#" class="text-blue-600 text-sm hover:underline">Baca →</a>
+          </div>
+        </div>
+        
+        <!-- Artikel 6 -->
+        <div class="bg-gray-50 p-4 rounded-lg shadow hover:shadow-md transition duration-300 border border-gray-200">
+          <div class="h-40 bg-gradient-to-r from-cyan-100 to-blue-100 mb-3 rounded flex items-center justify-center text-gray-400">[Gambar 6]</div>
+          <h4 class="font-semibold mb-1">Energi Terbarukan di Perkotaan</h4>
+          <p class="text-sm text-gray-600 mb-2">Implementasi panel surya transparan pada gedung perkantoran mampu mengurangi konsumsi energi hingga 40%...</p>
+          <div class="flex justify-between items-center">
+            <span class="text-xs text-gray-500">15 Des 2022</span>
+            <a href="#" class="text-blue-600 text-sm hover:underline">Baca →</a>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Baris 3 (Hidden by default) -->
+      <div class="article-row hidden grid gap-6 md:grid-cols-3 mb-6">
+        <!-- Artikel 7 -->
+        <div class="bg-gray-50 p-4 rounded-lg shadow hover:shadow-md transition duration-300 border border-gray-200">
+          <div class="h-40 bg-gradient-to-r from-emerald-100 to-green-100 mb-3 rounded flex items-center justify-center text-gray-400">[Gambar 7]</div>
+          <h4 class="font-semibold mb-1">Pengaruh Perubahan Iklim pada Ekosistem Laut</h4>
+          <p class="text-sm text-gray-600 mb-2">Studi 10 tahun menunjukkan penurunan keanekaragaman hayati laut sebesar 12% di wilayah tropis akibat pemanasan global...</p>
+          <div class="flex justify-between items-center">
+            <span class="text-xs text-gray-500">10 Des 2022</span>
+            <a href="#" class="text-blue-600 text-sm hover:underline">Baca →</a>
+          </div>
+        </div>
+        
+        <!-- Artikel 8 -->
+        <div class="bg-gray-50 p-4 rounded-lg shadow hover:shadow-md transition duration-300 border border-gray-200">
+          <div class="h-40 bg-gradient-to-r from-violet-100 to-purple-100 mb-3 rounded flex items-center justify-center text-gray-400">[Gambar 8]</div>
+          <h4 class="font-semibold mb-1">Neurosains dan Pembelajaran Bahasa</h4>
+          <p class="text-sm text-gray-600 mb-2">Pemindaian otak mengungkapkan mekanisme baru bagaimana otak memproses bahasa kedua pada usia dewasa...</p>
+          <div class="flex justify-between items-center">
+            <span class="text-xs text-gray-500">5 Des 2022</span>
+            <a href="#" class="text-blue-600 text-sm hover:underline">Baca →</a>
+          </div>
+        </div>
+        
+        <!-- Artikel 9 -->
+        <div class="bg-gray-50 p-4 rounded-lg shadow hover:shadow-md transition duration-300 border border-gray-200">
+          <div class="h-40 bg-gradient-to-r from-rose-100 to-pink-100 mb-3 rounded flex items-center justify-center text-gray-400">[Gambar 9]</div>
+          <h4 class="font-semibold mb-1">Robotika dalam Pertanian Presisi</h4>
+          <p class="text-sm text-gray-600 mb-2">Implementasi robot pemetik buah dengan computer vision mampu meningkatkan efisiensi panen hingga 35%...</p>
+          <div class="flex justify-between items-center">
+            <span class="text-xs text-gray-500">30 Nov 2022</span>
+            <a href="#" class="text-blue-600 text-sm hover:underline">Baca →</a>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Button Group -->
+      <div class="flex justify-center gap-4 mt-8">
+        <button id="view-more-btn" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-300">
+          View More
+        </button>
+        <button id="view-less-btn" class="hidden bg-gray-200 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-300 transition duration-300">
+          View Less
+        </button>
+      </div>
+      
+      <!-- View at Topics Link -->
+      <div class="text-center mt-12">
+        <a href="#topics" class="inline-block px-6 py-2 bg-gray-800 text-white rounded-md hover:bg-gray-900 transition duration-300 shadow">
+          View at Topics →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-white mt-12">
+    <div class="max-w-7xl mx-auto px-4 py-6 text-sm text-center">
+        <p class="mt-2"><a href="#">About</a> • <a href="#">Topics</a> • <a href="#">Unduh</a></p>
+        <br>
+        <p>© 2025 BRIGHT • Universitas Brawijaya</p>
+        <br>
+        <p>Email: redaksi@ub.ac.id | Telp: (0341) 123456</p>
+        <p>Jl. Veteran, Malang, Jawa Timur 65145</p>
+        <p> </p>
+        <p>Follow us: <a href="#">Instagram</a> • <a href="#">YouTube</a> • <a href="#">LinkedIn</a></p>
+      
+    </div>
+  </footer>
+
+</body>
+
+
+
+</html>
