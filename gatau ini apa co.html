@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BRIGHT Magazine Cards</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .magazine-card {
+      transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      aspect-ratio: 3/4;
+      position: relative;
+      overflow: hidden;
+      flex-shrink: 0;
+      width: 280px;
+    }
+    
+    .magazine-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(to bottom, rgba(4, 35, 56, 0.1), rgba(4, 35, 56, 0.8));
+      z-index: 1;
+      transition: opacity 0.3s ease;
+    }
+    
+    .magazine-card:hover::before {
+      opacity: 0.6;
+    }
+    
+    .magazine-card .card-content {
+      position: relative;
+      z-index: 2;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 1.5rem;
+      color: white;
+    }
+    
+    .magazine-card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+    
+    .center-card {
+      transform: scale(1.1);
+      z-index: 10;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+    }
+    
+    .center-card:hover {
+      transform: scale(1.15);
+    }
+    
+    .cards-container {
+      display: flex;
+      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      gap: 2rem;
+    }
+    
+    .cards-wrapper {
+      overflow: hidden;
+      width: 100%;
+      position: relative;
+    }
+    
+    .nav-arrow {
+      background: linear-gradient(135deg, #FF6B6B, #FF8E8E);
+      backdrop-filter: blur(10px);
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+      border: 2px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .nav-arrow:hover {
+      background: linear-gradient(135deg, #FF5252, #FF7979);
+      transform: scale(1.1);
+      box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+    }
+    
+    .nav-arrow.prev {
+      background: linear-gradient(135deg, #4ECDC4, #44A08D);
+      box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3);
+    }
+    
+    .nav-arrow.prev:hover {
+      background: linear-gradient(135deg, #26D0CE, #2ECC71);
+      box-shadow: 0 6px 20px rgba(78, 205, 196, 0.4);
+    }
+    
+    .edition-badge {
+      background: linear-gradient(45deg, #FF9907, #FFB854);
+      clip-path: polygon(0 0, 85% 0, 100% 50%, 85% 100%, 0 100%);
+    }
+    
+    .hover-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: 3;
+    }
+    
+    .magazine-card:hover .hover-overlay {
+      opacity: 1;
+    }
+    
+    .hover-content {
+      text-align: center;
+      color: white;
+      transform: translateY(20px);
+      transition: transform 0.3s ease;
+    }
+    
+    .magazine-card:hover .hover-content {
+      transform: translateY(0);
+    }
+    
+    .side-card {
+      opacity: 0.7;
+      transform: scale(0.9);
+    }
+    
+    .side-card:hover {
+      opacity: 1;
+      transform: scale(0.95);
+    }
+    
+    @media (max-width: 768px) {
+      .magazine-card {
+        width: 220px;
+      }
+      .nav-arrow {
+        width: 2.5rem;
+        height: 2.5rem;
+      }
+    }
+  </style>
+</head>
+<body class="bg-gray-100 py-16">
+  <div class="max-w-7xl mx-auto px-4 relative">
+    <h2 class="text-3xl font-bold text-center mb-12 text-[#042338]">BRIGHT RESEARCH HIGHLIGHT</h2>
+    
+    <!-- Cards Container -->
+    <div class="relative">
+      <div class="cards-wrapper">
+        <div class="cards-container" id="cardsContainer">
+          <!-- Card 1 - Reconstruction -->
+          <div class="magazine-card rounded-xl bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80')">
+            <div class="card-content">
+              <div class="absolute top-4 left-4 edition-badge px-4 py-1 text-sm font-bold">EDITION 2023</div>
+              <h3 class="text-xl font-bold mb-2">Reconstruction Of State</h3>
+              <p class="text-sm mb-4">To Optimize National Resilience In Indonesia</p>
+              <div class="text-xs space-y-1">
+                <p>• Denying the Accusation of Plagiarism</p>
+                <p>• Power Relations at Play</p>
+              </div>
+            </div>
+            <div class="hover-overlay">
+              <div class="hover-content">
+                <h4 class="text-lg font-bold mb-2">Read More</h4>
+                <p class="text-sm">Click to explore this research</p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Card 2 - Humans Life -->
+          <div class="magazine-card center-card rounded-xl bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1575505586569-646b2ca898fc?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80')">
+            <div class="card-content">
+              <div class="absolute top-4 right-4 text-4xl font-bold text-[#FF9907] opacity-70">02</div>
+              <div class="text-center">
+                <div class="text-xs uppercase tracking-widest mb-1">BRIGHT</div>
+                <div class="text-2xl font-bold mb-1">BRAWJAYA</div>
+                <div class="text-lg mb-4">RESEARCH HIGHLIGHT</div>
+                <div class="flex justify-center gap-2 flex-wrap">
+                  <span class="bg-black bg-opacity-60 px-3 py-1 text-xs rounded">HUMANS</span>
+                  <span class="bg-black bg-opacity-60 px-3 py-1 text-xs rounded">LIFE!</span>
+                  <span class="bg-black bg-opacity-60 px-3 py-1 text-xs rounded">HEALTH</span>
+                </div>
+              </div>
+            </div>
+            <div class="hover-overlay">
+              <div class="hover-content">
+                <h4 class="text-lg font-bold mb-2">Featured Article</h4>
+                <p class="text-sm">Explore human life and health research</p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Card 3 - Biotechnology -->
+          <div class="magazine-card rounded-xl bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80')">
+            <div class="card-content">
+              <div class="absolute top-4 left-4 text-xs uppercase">UNIVERSITAS BRAWIJAYA</div>
+              <div class="text-center">
+                <div class="text-2xl font-bold mb-2">BRIGHT</div>
+                <div class="text-sm uppercase tracking-widest mb-4">2023 EDITION</div>
+                <h3 class="text-lg font-bold mb-2">Biotechnology Solution</h3>
+                <p class="text-xs">Advancement in Natural Resources</p>
+              </div>
+            </div>
+            <div class="hover-overlay">
+              <div class="hover-content">
+                <h4 class="text-lg font-bold mb-2">Innovation</h4>
+                <p class="text-sm">Discover biotechnology breakthroughs</p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Card 4 - Environmental Science -->
+          <div class="magazine-card rounded-xl bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1569163139394-de4e4f43e4e5?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80')">
+            <div class="card-content">
+              <div class="absolute top-4 left-4 edition-badge px-4 py-1 text-sm font-bold">SPECIAL</div>
+              <h3 class="text-xl font-bold mb-2">Environmental Science</h3>
+              <p class="text-sm mb-4">Sustainable Development Research</p>
+              <div class="text-xs space-y-1">
+                <p>• Climate Change Solutions</p>
+                <p>• Green Technology Innovation</p>
+              </div>
+            </div>
+            <div class="hover-overlay">
+              <div class="hover-content">
+                <h4 class="text-lg font-bold mb-2">Sustainability</h4>
+                <p class="text-sm">Environmental research insights</p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Card 5 - Digital Innovation -->
+          <div class="magazine-card rounded-xl bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1518709268805-4e9042af2176?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80')">
+            <div class="card-content">
+              <div class="absolute top-4 right-4 text-4xl font-bold text-[#FF9907] opacity-70">05</div>
+              <div class="text-center">
+                <div class="text-xs uppercase tracking-widest mb-1">BRIGHT</div>
+                <div class="text-2xl font-bold mb-1">DIGITAL</div>
+                <div class="text-lg mb-4">INNOVATION</div>
+                <div class="flex justify-center gap-2 flex-wrap">
+                  <span class="bg-black bg-opacity-60 px-3 py-1 text-xs rounded">AI</span>
+                  <span class="bg-black bg-opacity-60 px-3 py-1 text-xs rounded">TECH</span>
+                  <span class="bg-black bg-opacity-60 px-3 py-1 text-xs rounded">FUTURE</span>
+                </div>
+              </div>
+            </div>
+            <div class="hover-overlay">
+              <div class="hover-content">
+                <h4 class="text-lg font-bold mb-2">Technology</h4>
+                <p class="text-sm">Digital transformation research</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Navigation Arrows -->
+      <button id="prevBtn" class="nav-arrow prev absolute left-[-4rem] top-1/2 -translate-y-1/2 w-12 h-12 rounded-full flex items-center justify-center text-white z-20">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+      </button>
+      <button id="nextBtn" class="nav-arrow absolute right-[-4rem] top-1/2 -translate-y-1/2 w-12 h-12 rounded-full flex items-center justify-center text-white z-20">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+      </button>
+    </div>
+    
+    <!-- Indicators -->
+    <div class="flex justify-center space-x-2 mt-8">
+      <button class="w-3 h-3 rounded-full bg-gray-300 indicator transition-all duration-300" data-index="0"></button>
+      <button class="w-3 h-3 rounded-full bg-[#FF9907] indicator active transition-all duration-300" data-index="1"></button>
+      <button class="w-3 h-3 rounded-full bg-gray-300 indicator transition-all duration-300" data-index="2"></button>
+      <button class="w-3 h-3 rounded-full bg-gray-300 indicator transition-all duration-300" data-index="3"></button>
+      <button class="w-3 h-3 rounded-full bg-gray-300 indicator transition-all duration-300" data-index="4"></button>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const cardsContainer = document.getElementById('cardsContainer');
+      const cards = document.querySelectorAll('.magazine-card');
+      const prevBtn = document.getElementById('prevBtn');
+      const nextBtn = document.getElementById('nextBtn');
+      const indicators = document.querySelectorAll('.indicator');
+      
+      let currentIndex = 0;
+      const cardCount = cards.length;
+      const cardWidth = 280 + 32; // card width + gap
+      
+      // Clone first and last cards for seamless looping
+      const firstCard = cards[0].cloneNode(true);
+      const lastCard = cards[cardCount - 1].cloneNode(true);
+      
+      cardsContainer.appendChild(firstCard);
+      cardsContainer.insertBefore(lastCard, cards[0]);
+      
+      // Update cards container position
+      cardsContainer.style.transform = `translateX(-${cardWidth}px)`;
+      
+      function updateCards() {
+        const offset = -(currentIndex + 1) * cardWidth;
+        cardsContainer.style.transform = `translateX(${offset}px)`;
+        
+        // Update center card styling
+        const allCards = document.querySelectorAll('.magazine-card');
+        allCards.forEach((card, index) => {
+          card.classList.remove('center-card', 'side-card');
+          if (index === currentIndex + 1) {
+            card.classList.add('center-card');
+          } else if (Math.abs(index - (currentIndex + 1)) === 1) {
+            card.classList.add('side-card');
+          }
+        });
+        
+        // Update indicators
+        indicators.forEach((indicator, index) => {
+          if (index === currentIndex) {
+            indicator.classList.add('bg-[#FF9907]');
+            indicator.classList.remove('bg-gray-300');
+          } else {
+            indicator.classList.add('bg-gray-300');
+            indicator.classList.remove('bg-[#FF9907]');
+          }
+        });
+      }
+      
+      function handleTransitionEnd() {
+        if (currentIndex >= cardCount) {
+          currentIndex = 0;
+          cardsContainer.style.transition = 'none';
+          cardsContainer.style.transform = `translateX(-${cardWidth}px)`;
+          setTimeout(() => {
+            cardsContainer.style.transition = 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+          }, 50);
+        } else if (currentIndex < 0) {
+          currentIndex = cardCount - 1;
+          cardsContainer.style.transition = 'none';
+          cardsContainer.style.transform = `translateX(-${cardCount * cardWidth}px)`;
+          setTimeout(() => {
+            cardsContainer.style.transition = 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+          }, 50);
+        }
+        
+        // Update indicators after transition
+        indicators.forEach((indicator, index) => {
+          if (index === currentIndex) {
+            indicator.classList.add('bg-[#FF9907]');
+            indicator.classList.remove('bg-gray-300');
+          } else {
+            indicator.classList.add('bg-gray-300');
+            indicator.classList.remove('bg-[#FF9907]');
+          }
+        });
+      }
+      
+      cardsContainer.addEventListener('transitionend', handleTransitionEnd);
+      
+      // Next card
+      nextBtn.addEventListener('click', () => {
+        currentIndex++;
+        updateCards();
+      });
+      
+      // Previous card
+      prevBtn.addEventListener('click', () => {
+        currentIndex--;
+        updateCards();
+      });
+      
+      // Indicator navigation
+      indicators.forEach((indicator, index) => {
+        indicator.addEventListener('click', () => {
+          currentIndex = index;
+          updateCards();
+        });
+      });
+      
+      // Auto-rotate cards every 5 seconds
+      let autoRotate = setInterval(() => {
+        currentIndex++;
+        updateCards();
+      }, 5000);
+      
+      // Pause auto-rotate on hover
+      const carouselContainer = document.querySelector('.cards-wrapper');
+      carouselContainer.addEventListener('mouseenter', () => {
+        clearInterval(autoRotate);
+      });
+      
+      carouselContainer.addEventListener('mouseleave', () => {
+        autoRotate = setInterval(() => {
+          currentIndex++;
+          updateCards();
+        }, 5000);
+      });
+      
+      // Keyboard navigation
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') {
+          currentIndex--;
+          updateCards();
+        } else if (e.key === 'ArrowRight') {
+          currentIndex++;
+          updateCards();
+        }
+      });
+      
+      // Initial setup
+      updateCards();
+    });
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>
+  body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f9f9f9;
+    color: #333;
+  }
+  header {
+    background: #fff;
+    border-bottom: 1px solid #ddd;
+    padding: 1em 0.5em;
+  }
+  .title-bar {
+    text-align: center;
+    font-size: 1.8em;
+    font-weight: bold;
+    padding: 0.5em 0;
+  }
+  .navbar {
+    display: flex;
+    justify-content: center;
+    gap: 1.5em;
+    flex-wrap: wrap;
+    max-width: 960px;
+    margin: auto;
+  }
+  nav .dropdown {
+    position: relative;
+  }
+  nav .dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: #fff;
+    border: 1px solid #ccc;
+    min-width: 180px;
+    z-index: 10;
+  }
+  nav .dropdown:hover .dropdown-content {
+    display: block;
+  }
+  nav a {
+    text-decoration: none;
+    color: #0077cc;
+    padding: 0.3em 0.5em;
+  }
+  nav .dropdown-content a {
+    display: block;
+    padding: 0.5em;
+    border-bottom: 1px solid #eee;
+  }
+  section {
+    max-width: 960px;
+    margin: 2em auto;
+    padding: 1em;
+    background: #fff;
+    border-radius: 6px;
+  }
+  .search-input-group {
+    display: flex;
+    margin-bottom: 1em;
+  }
+  .search-input-group input {
+    flex: 1;
+    padding: 0.5em;
+    border: 1px solid #ccc;
+    border-radius: 4px 0 0 4px;
+  }
+  .search-input-group button {
+    padding: 0.5em 1em;
+    background: #0077cc;
+    color: white;
+    border: none;
+    border-radius: 0 4px 4px 0;
+  }
+  .advanced-filters {
+    display: flex;
+    gap: 1em;
+    flex-wrap: wrap;
+  }
+  .filter-group label {
+    display: block;
+    margin-bottom: 0.5em;
+    font-weight: bold;
+  }
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1em;
+  }
+  .stat-item {
+    background: #eef6ff;
+    text-align: center;
+    padding: 1em;
+    border-radius: 4px;
+  }
+  .stat-number {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #0077cc;
+  }
+  .stat-label {
+    color: #666;
+  }
+  .rektor-section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1em;
+    align-items: center;
+  }
+  .rektor-img {
+    flex: 1 1 150px;
+    background: #ccc;
+    height: 200px;
+    border-radius: 4px;
+  }
+  .rektor-text {
+    flex: 2;
+  }
+  .right-now ul, .latest-articles .article-grid {
+    list-style: none;
+    padding: 0;
+  }
+  .right-now li, .article-grid article {
+    margin-bottom: 1em;
+  }
+  .article-grid article h4 {
+    margin: 0 0 0.5em;
+  }
+  footer {
+    background: #f1f1f1;
+    padding: 2em 1em;
+    margin-top: 3em;
+    font-size: 0.9em;
+    text-align: center;
+  }
+</style>
+
+<body>
+  <!-- Title Header -->
+  <div class="title-bar">UB MAGAZINE</div>
+
+  <!-- Navbar -->
+  <header>
+    <nav class="navbar">
+      <div class="dropdown">
+        <a href="#">Topics</a>
+        <div class="dropdown-content">
+          <a href="#">Health & Medicine</a>
+          <a href="#">Science & Technology</a>
+          <a href="#">Agriculture & Environment</a>
+          <a href="#">Social & Humanities</a>
+          <a href="#">Engineering & Innovation</a>
+        </div>
+      </div>
+      <div class="dropdown">
+        <a href="#">Advanced Search</a>
+        <div class="dropdown-content">
+          <a href="#">By Title</a>
+          <a href="#">By Publisher</a>
+          <a href="#">By Collection</a>
+          <a href="#">By Year</a>
+        </div>
+      </div>
+      <div class="dropdown">
+        <a href="#">Document / Unduh</a>
+        <div class="dropdown-content">
+          <a href="#">Edisi 2025</a>
+          <a href="#">Edisi 2024</a>
+        </div>
+      </div>
+      <div class="dropdown">
+        <a href="#">About</a>
+        <div class="dropdown-content">
+          <a href="#">Tentang Kami</a>
+          <a href="#">Visi & Misi</a>
+          <a href="#">Tim Editorial</a>
+        </div>
+      </div>
+      <a href="#">Contact Us</a>
+    </nav>
+  </header>
+
+  <!-- Search Section -->
+  <section class="search-section">
+    <h2>Cari Artikel & Dokumen</h2>
+    <form action="/search" method="get">
+      <div class="search-input-group">
+        <input type="text" name="q" placeholder="Search by title, author, or keyword...">
+        <button type="submit">Search</button>
+      </div>
+      <div class="advanced-filters">
+        <div class="filter-group">
+          <label for="year">Year:</label>
+          <select id="year" name="year">
+            <option value="">All Years</option>
+            <option value="2025">2025</option>
+            <option value="2024">2024</option>
+            <option value="2023">2023</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label for="type">Document Type:</label>
+          <select id="type" name="type">
+            <option value="">All Types</option>
+            <option value="journal">Journal Article</option>
+            <option value="highlight">Research Highlight</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label for="faculty">Faculty:</label>
+          <select id="faculty" name="faculty">
+            <option value="">All Faculties</option>
+            <option value="engineering">Engineering</option>
+            <option value="medicine">Medicine</option>
+          </select>
+        </div>
+      </div>
+    </form>
+  </section>
+
+  <!-- Stats Section -->
+  <section class="stats-section">
+    <h2>Statistik BRIGHT Magazine</h2>
+    <div class="stats-grid">
+      <div class="stat-item">
+        <span class="stat-number">150+</span>
+        <span class="stat-label">Total Artikel</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number">30+</span>
+        <span class="stat-label">Penulis</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number">20</span>
+        <span class="stat-label">Fakultas Terlibat</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number">10K+</span>
+        <span class="stat-label">PDF Diunduh</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sambutan Rektor -->
+  <section class="rektorat-section">
+    <h2>Sambutan Rektor</h2>
+    <div class="rektor-section">
+      <div class="rektor-img">[Foto Rektor]</div>
+      <div class="rektor-text">
+        <h3>Prof. Dr. Nama Rektor</h3>
+        <blockquote>"Kami bangga mempersembahkan BRIGHT sebagai wadah inovasi dan pengetahuan dari Universitas Brawijaya kepada dunia."</blockquote>
+        <p>Selamat datang di BRIGHT, representasi dari semangat kolaborasi dan pengabdian kami untuk ilmu pengetahuan dan masyarakat luas. Kami percaya setiap riset yang dilakukan di UB adalah kontribusi nyata untuk masa depan Indonesia dan dunia.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Welcome Section -->
+  <section class="welcome-section">
+    <h2>Selamat Datang di BRIGHT Magazine</h2>
+    <p>BRIGHT (Brawijaya Research Highlights) adalah majalah artikel ilmiah populer dari Universitas Brawijaya, yang menampilkan karya-karya riset terbaik dosen dan peneliti lintas fakultas. Website ini menjadi rumah digital untuk mengeksplorasi inovasi terbaru dalam sains, teknologi, kesehatan, dan sosial humaniora.</p>
+  </section>
+
+  <!-- Right Now -->
+  <section class="right-now">
+    <h3>Right Now</h3>
+    <ul>
+      <li><a href="#">Update terkini: Penelitian AI untuk pertanian berkelanjutan</a></li>
+      <li><a href="#">Mahasiswa FISIP raih penghargaan internasional</a></li>
+    </ul>
+  </section>
+
+  <!-- Latest Articles -->
+  <section class="latest-articles">
+    <h3>Latest Articles</h3>
+    <div class="article-grid">
+      <article>
+        <h4><a href="#">Pemanfaatan Jamur Reishi untuk Sindrom Metabolik</a></h4>
+        <p>Studi terbaru dari Fakultas Kedokteran mengungkap potensi Ganoderma lucidum dalam mengurangi stres oksidatif...</p>
+      </article>
+      <article>
+        <h4><a href="#">Phytokimia Bunga Chrysanthemum dalam Terapi Kanker</a></h4>
+        <p>Artikel ini membahas ekstrak tanaman yang menunjukkan potensi melawan OSCC secara in-silico...</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 BRIGHT • Universitas Brawijaya</p>
+    <p><a href="#">About</a> • <a href="#">Topics</a> • <a href="#">Unduh</a></p>
+    <p>Email: redaksi@ub.ac.id | Telp: (0341) 123456</p>
+    <p>Jl. Veteran, Malang, Jawa Timur 65145</p>
+    <p>Follow us: <a href="#">Instagram</a> • <a href="#">YouTube</a> • <a href="#">LinkedIn</a></p>
+  </footer>
+</body>
+
+
+.stats-section {
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+
+
+
+    <head>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script>
+          // Script sederhana untuk toggle dropdown
+          document.addEventListener('DOMContentLoaded', function() {
+            const dropdowns = document.querySelectorAll('.dropdown');
+            
+            dropdowns.forEach(dropdown => {
+              const button = dropdown.querySelector('.dropdown-button');
+              const menu = dropdown.querySelector('.dropdown-menu');
+              
+              button.addEventListener('click', () => {
+                // Tutup semua dropdown lainnya
+                dropdowns.forEach(d => {
+                  if (d !== dropdown) {
+                    d.querySelector('.dropdown-menu').classList.add('hidden');
+                  }
+                });
+                
+                // Toggle dropdown yang diklik
+                menu.classList.toggle('hidden');
+              });
+            });
+            
+            // Tutup dropdown saat klik di luar
+            document.addEventListener('click', function(e) {
+              if (!e.target.closest('.dropdown')) {
+                dropdowns.forEach(dropdown => {
+                  dropdown.querySelector('.dropdown-menu').classList.add('hidden');
+                });
+              }
+            });
+          });
+        </script>
+      </head>
+      
+      <body class="font-sans">
+        <!-- Navbar -->
+        <header class="bg-white shadow-md sticky top-0 z-50">
+          <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+            <nav class="flex space-x-6 text-sm">
+              <!-- Topics Dropdown -->
+              <div class="dropdown relative">
+                <button class="dropdown-button hover:underline flex items-center">
+                  Topics
+                  <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                  </svg>
+                </button>
+                <div class="dropdown-menu hidden absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+                  <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-100">Health & Medicine</a>
+                  <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-100">Science & Technology</a>
+                  <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-100">Agriculture & Environment</a>
+                  <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-100">Social & Humanities</a>
+                  <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-100">Engineering & Innovation</a>
+                </div>
+              </div>
+              
+              <!-- Advanced Search Dropdown -->
+              <div class="dropdown relative">
+                <button class="dropdown-button hover:underline flex items-center">
+                  Advanced Search
+                  <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                  </svg>
+                </button>
+                <div class="dropdown-menu hidden absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+                  <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-100">By Title</a>
+                  <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-100">By Authors</a>
+                  <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-100">By Collections</a>
+                  <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-100">By Publication Year</a>
+                  <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-100">By Subject</a>
+                </div>
+              </div>
+              
+              <!-- Document/Unduh Dropdown -->
+              <div class="dropdown relative">
+                <button class="dropdown-button hover:underline flex items-center">
+                  Document/Unduh
+                  <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                  </svg>
+                </button>
+                <div class="dropdown-menu hidden absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+                  <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-100">Unduhan PDF</a>
+                  <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-100">Dokumen Artikel</a>
+                  <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-100">Majalah Bright</a>
+                </div>
+              </div>
+              
+              <!-- About Dropdown -->
+              <div class="dropdown relative">
+                <button class="dropdown-button hover:underline flex items-center">
+                  About
+                  <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                  </svg>
+                </button>
+                <div class="dropdown-menu hidden absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+                  <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-100">Tentang Kami</a>
+                  <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-100">Visi/Misi</a>
+                  <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-100">Tim Editorial</a>
+                  <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-100">Kontak</a>
+                </div>
+              </div>
+              
+              <!-- Contact Us (tanpa dropdown) -->
+              <a href="#" class="hover:underline">Contact Us</a>
+            </nav>
+            
+            <!-- Search Bar -->
+            <div>
+              <input type="text" placeholder="Search..." class="border border-gray-300 px-3 py-1 rounded text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500">
+            </div>
+          </div>
+        </header>
+      
+        <!-- Konten halaman -->
+        <main class="max-w-7xl mx-auto px-4 py-8">
+          <h1 class="text-2xl font-bold mb-4">Selamat Datang di Scholar UI</h1>
+          <p class="text-gray-700">Gunakan menu navigasi di atas untuk menjelajahi koleksi dokumen kami.</p>
+        </main>
+      </body>

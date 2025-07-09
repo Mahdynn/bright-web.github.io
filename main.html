@@ -1,0 +1,960 @@
+<!-- tailwindcss.com CDN example -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>BRIGHT</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // Dropdown toggle
+      const dropdowns = document.querySelectorAll('.dropdown');
+    
+      dropdowns.forEach(dropdown => {
+        const button = dropdown.querySelector('.dropdown-button');
+        const menu = dropdown.querySelector('.dropdown-content');
+    
+        button.addEventListener('click', (e) => {
+          e.stopPropagation();
+          menu.classList.toggle('hidden');
+          dropdowns.forEach(d => {
+            if (d !== dropdown) {
+              d.querySelector('.dropdown-content').classList.add('hidden');
+            }
+          });
+        });
+      });
+    
+      document.addEventListener('click', () => {
+        dropdowns.forEach(dropdown => {
+          dropdown.querySelector('.dropdown-content').classList.add('hidden');
+        });
+      });
+    
+      // Counter animation
+      const counters = document.querySelectorAll(".stat-number");
+      counters.forEach((counter) => {
+        const updateCount = () => {
+          const target = +counter.getAttribute("data-target");
+          const count = +counter.innerText.replace(/\D/g, '');
+          const increment = target / 100;
+    
+          if (count < target) {
+            counter.innerText = Math.ceil(count + increment).toLocaleString();
+            setTimeout(updateCount, 20);
+          } else {
+            counter.innerText = target.toLocaleString();
+          }
+        };
+        updateCount();
+      });
+    
+      // View More / Less toggle
+      const viewMoreBtn = document.getElementById('view-more-btn');
+      const viewLessBtn = document.getElementById('view-less-btn');
+      const articleRows = document.querySelectorAll('.article-row');
+      let currentVisibleRows = 1;
+    
+      if (articleRows.length <= 1) viewLessBtn.classList.add('hidden');
+      articleRows.forEach((row, index) => {
+        if (index > 0) row.classList.add('hidden');
+      });
+    
+      viewMoreBtn?.addEventListener('click', function() {
+        if (currentVisibleRows < articleRows.length) {
+          articleRows[currentVisibleRows].classList.remove('hidden');
+          currentVisibleRows++;
+        }
+        if (currentVisibleRows >= articleRows.length) {
+          viewMoreBtn.classList.add('hidden');
+        }
+        if (currentVisibleRows > 1) {
+          viewLessBtn.classList.remove('hidden');
+        }
+      });
+    
+      viewLessBtn?.addEventListener('click', function() {
+        articleRows.forEach((row, index) => {
+          if (index > 0) row.classList.add('hidden');
+        });
+        currentVisibleRows = 1;
+        viewMoreBtn.classList.remove('hidden');
+        viewLessBtn.classList.add('hidden');
+      });
+    });
+    </script>
+
+  <style>
+ .magazine-card {
+      transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      aspect-ratio: 3/4;
+      position: relative;
+      overflow: hidden;
+      flex-shrink: 0;
+      width: 280px;
+    }
+    
+    .magazine-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(to bottom, rgba(4, 35, 56, 0.1), rgba(4, 35, 56, 0.8));
+      z-index: 1;
+      transition: opacity 0.3s ease;
+    }
+    
+    .magazine-card:hover::before {
+      opacity: 0.6;
+    }
+    
+    .magazine-card .card-content {
+      position: relative;
+      z-index: 2;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 1.5rem;
+      color: white;
+    }
+    
+    .magazine-card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+    
+    .center-card {
+      transform: scale(1.1);
+      z-index: 10;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+    }
+    
+    .center-card:hover {
+      transform: scale(1.15);
+    }
+    
+    .cards-container {
+      display: flex;
+      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      gap: 2rem;
+    }
+    
+    .cards-wrapper {
+      overflow: hidden;
+      width: 100%;
+      position: relative;
+    }
+    
+    .nav-arrow {
+      background: linear-gradient(135deg, #FF6B6B, #FF8E8E);
+      backdrop-filter: blur(10px);
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+      border: 2px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .nav-arrow:hover {
+      background: linear-gradient(135deg, #FF5252, #FF7979);
+      transform: scale(1.1);
+      box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+    }
+    
+    .nav-arrow.prev {
+      background: linear-gradient(135deg, #4ECDC4, #44A08D);
+      box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3);
+    }
+    
+    .nav-arrow.prev:hover {
+      background: linear-gradient(135deg, #26D0CE, #2ECC71);
+      box-shadow: 0 6px 20px rgba(78, 205, 196, 0.4);
+    }
+    
+    .edition-badge {
+      background: linear-gradient(45deg, #FF9907, #FFB854);
+      clip-path: polygon(0 0, 85% 0, 100% 50%, 85% 100%, 0 100%);
+    }
+    
+    .hover-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: 3;
+    }
+    
+    .magazine-card:hover .hover-overlay {
+      opacity: 1;
+    }
+    
+    .hover-content {
+      text-align: center;
+      color: white;
+      transform: translateY(20px);
+      transition: transform 0.3s ease;
+    }
+    
+    .magazine-card:hover .hover-content {
+      transform: translateY(0);
+    }
+    
+    .side-card {
+      opacity: 0.7;
+      transform: scale(0.9);
+    }
+    
+    .side-card:hover {
+      opacity: 1;
+      transform: scale(0.95);
+    }
+    
+    @media (max-width: 768px) {
+      .magazine-card {
+        width: 220px;
+      }
+      .nav-arrow {
+        width: 2.5rem;
+        height: 2.5rem;
+      }
+    }
+    .category-tag {
+      background: rgba(0, 0, 0, 0.7);
+      clip-path: polygon(0 0, 85% 0, 100% 50%, 85% 100%, 0 100%);
+    }
+    .category-tag {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      background-color: rgba(0, 0, 0, 0.7);
+      color: white;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      z-index: 20;
+    }
+    .search-section {
+      padding: 20px;
+      background: #042338;
+      border-radius: 8px;
+      margin-bottom: 30px;
+      color: white;
+    }
+    .search-input-group {
+      display: flex;
+      margin-bottom: 15px;
+    }
+    .search-input {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px 0 0 4px;
+    }
+    .search-button {
+      padding: 10px 15px;
+      background: #FF9907;
+      color: white;
+      border: none;
+      border-radius: 0 4px 4px 0;
+      cursor: pointer;
+    }
+    .advanced-filters {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+    .filter-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    .stat-item {
+      text-align: center;
+      padding: 15px;
+      background: #eaf4ff;
+      border-radius: 4px;
+    }
+    .title-bar {
+      text-align: center;
+      font-family: "Belriner Regular";
+      font-size: 1.8em;
+      font-weight: bold;
+      padding: 0.5em 0;
+      background-color: #042338;
+      color: white;
+    }
+    nav a {
+      color: #FFB854;
+    }
+    nav .dropdown-button:hover {
+      color: #FF9907;
+    }
+    .rektor-section {
+      background: #f9f9f9;
+    }
+    .right-now-section {
+      background-color: #F5F6F7;
+    }
+    footer {
+      background-color: #0D283D;
+      color: white;
+    }
+    footer a {
+      color: #FF9907;
+    }
+  </style>
+</head>
+<body class="bg-gray-50">
+<!-- Konten HTML tetap, bagian utama sudah disesuaikan dengan warna sesuai permintaan -->
+
+
+</head>
+<body>
+
+    <div class="title-bar">BRIGHT</div>
+
+  <!-- Navbar -->
+<!-- Navbar -->
+<header class="bg-white shadow-md sticky top-0 z-50" style="background: #00406C; color: white">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+      <nav class="flex space-x-6 text-sm relative">
+        <!-- Topics Dropdown -->
+        <div class="relative group">
+          <button class="hover:underline flex items-center focus:outline-none">
+            <span>Topics</span>
+            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="group-hover:flex hidden flex-col absolute left-0 mt-2 w-48 bg-[#003355] text-white rounded-md shadow-lg py-1 z-50" onmouseover="this.classList.add('flex')" onmouseout="this.classList.remove('flex')">
+            <a href="#" class="block px-4 py-2 text-sm hover:bg-[#004C7C]">Health & Medicine</a>
+            <a href="#" class="block px-4 py-2 text-sm hover:bg-[#004C7C]">Science & Technology</a>
+            <a href="#" class="block px-4 py-2 text-sm hover:bg-[#004C7C]">Agriculture & Environment</a>
+            <a href="#" class="block px-4 py-2 text-sm hover:bg-[#004C7C]">Social & Humanities</a>
+            <a href="#" class="block px-4 py-2 text-sm hover:bg-[#004C7C]">Engineering & Innovation</a>
+          </div>
+        </div>
+  
+        <!-- Advanced Search Dropdown -->
+        <div class="relative group">
+          <button class="hover:underline flex items-center focus:outline-none">
+            <span>Advanced Search</span>
+            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="group-hover:flex hidden flex-col absolute left-0 mt-2 w-48 bg-[#003355] text-white rounded-md shadow-lg py-1 z-50" onmouseover="this.classList.add('flex')" onmouseout="this.classList.remove('flex')">
+            <a href="#" class="block px-4 py-2 text-sm hover:bg-[#004C7C]">By Title</a>
+            <a href="#" class="block px-4 py-2 text-sm hover:bg-[#004C7C]">By Authors</a>
+            <a href="#" class="block px-4 py-2 text-sm hover:bg-[#004C7C]">By Collections</a>
+            <a href="#" class="block px-4 py-2 text-sm hover:bg-[#004C7C]">By Publication Year</a>
+            <a href="#" class="block px-4 py-2 text-sm hover:bg-[#004C7C]">By Subject</a>
+          </div>
+        </div>
+  
+        <!-- Document/Unduh Dropdown -->
+        <div class="relative group">
+          <button class="hover:underline flex items-center focus:outline-none">
+            <span>Document/Unduh</span>
+            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="group-hover:flex hidden flex-col absolute left-0 mt-2 w-48 bg-[#003355] text-white rounded-md shadow-lg py-1 z-50" onmouseover="this.classList.add('flex')" onmouseout="this.classList.remove('flex')">
+            <a href="#" class="block px-4 py-2 text-sm hover:bg-[#004C7C]">Unduhan PDF</a>
+            <a href="#" class="block px-4 py-2 text-sm hover:bg-[#004C7C]">Dokumen Artikel</a>
+            <a href="#" class="block px-4 py-2 text-sm hover:bg-[#004C7C]">Majalah Bright</a>
+          </div>
+        </div>
+  
+        <!-- About Dropdown -->
+        <div class="relative group">
+          <button onclick="topics.html" class="hover:underline flex items-center focus:outline-none">
+            <span>About</span>
+            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="group-hover:flex hidden flex-col absolute left-0 mt-2 w-48 bg-[#003355] text-white rounded-md shadow-lg py-1 z-50" onmouseover="this.classList.add('flex')" onmouseout="this.classList.remove('flex')">
+            <a href="#" class="block px-4 py-2 text-sm hover:bg-[#004C7C]">Tentang Kami</a>
+            <a href="#" class="block px-4 py-2 text-sm hover:bg-[#004C7C]">Visi/Misi</a>
+            <a href="#" class="block px-4 py-2 text-sm hover:bg-[#004C7C]">Tim Editorial</a>
+            <a href="#" class="block px-4 py-2 text-sm hover:bg-[#004C7C]">Kontak</a>
+          </div>
+        </div>
+  
+        <!-- Contact Us (no dropdown) -->
+        <a href="#" class="hover:underline">Contact Us</a>
+      </nav>
+    </div>
+  </header>
+  
+
+  <!-- Hero Section -->
+  <section class="relative overflow-hidden bg-black py-16">
+    <!-- Video Background -->
+    <div class="absolute inset-0 w-full h-full overflow-hidden z-0">
+      <video autoplay muted loop playsinline class="w-full h-full object-cover object-center">
+        <source src="content/bg-hero.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+      <!-- Black Overlay -->
+      <div class="absolute inset-0 bg-black bg-opacity-60"></div>
+    </div>
+  
+    <!-- Foreground Content -->
+    <div class="relative z-10 max-w-7xl mx-auto px-4 grid md:grid-cols-2 items-center gap-6 text-white">
+      <div>
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">Welcome to BRIGHT</h2>
+        <p class="mb-6 text-lg leading-relaxed">BRIGHT adalah wadah publikasi ilmiah yang mendukung semangat inovasi, riset, dan kontribusi dari civitas akademika Universitas Brawijaya.</p>
+        <a href="#" class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded shadow transition">Baca Selengkapnya →</a>
+      </div>
+  
+      <!-- Real Image 
+      <div>
+        <img src="..\content\ub-thumbnail.png" alt="Gambar Artikel"
+             class="rounded-lg shadow-lg object-cover w-full h-64">
+      </div> -->
+    </div>
+  </section>
+<!-- Main Content Container -->
+<div class="main-content">
+    <!-- 1. Search Section -->
+    <section class="search-section">
+        <h2 class="text-2xl font-bold text-center mb-8" style="color=white">Cari Dokumen</h2>
+        <form class="search-form" action="/search" method="get">
+            <!-- Search Input -->
+            <div class="search-input-group">
+                <input 
+                    type="text" 
+                    name="q" 
+                    placeholder="Search by title, author, or keyword..." 
+                    class="search-input"
+                >
+                <button type="submit" class="search-button">
+                    <i class="fas fa-search"></i> Search
+                </button>
+            </div>
+
+            <!-- Advanced Filters (Collapsible) -->
+            <div class="advanced-filters">
+                <div class="filter-group">
+                    <label for="year">Year:</label>
+                    <select id="year" name="year">
+                        <option value="">All Years</option>
+                        <option value="2023">2023</option>
+                        <option value="2022">2022</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="type">Document Type:</label>
+                    <select id="type" name="type">
+                        <option value="">All Types</option>
+                        <option value="thesis">Thesis</option>
+                        <option value="journal">Journal Article</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="faculty">Faculty:</label>
+                    <select id="faculty" name="faculty">
+                        <option value="">All Faculties</option>
+                        <option value="engineering">Engineering</option>
+                        <option value="medicine">Medicine</option>
+                    </select>
+                </div>
+            </div>
+        </form>
+    </section>
+
+    <!-- 2. Quick Stats Section -->
+    <section class="bg-white py-12">
+        <div class="max-w-7xl mx-auto px-4">
+          <h2 class="text-2xl font-bold text-center mb-8">Repository Stats</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 text-center">
+            <div class="bg-blue-50 p-6 rounded shadow">
+              <p class="stat-number text-2xl font-bold text-blue-600" data-target="10000">0</p>
+              <p class="text-gray-600">Total Documents</p>
+            </div>
+            <div class="bg-blue-50 p-6 rounded shadow">
+              <p class="stat-number text-2xl font-bold text-blue-600" data-target="2500">0</p>
+              <p class="text-gray-600">Theses</p>
+            </div>
+            <div class="bg-blue-50 p-6 rounded shadow">
+              <p class="stat-number text-2xl font-bold text-blue-600" data-target="20">0</p>
+              <p class="text-gray-600">Faculties</p>
+            </div>
+            <div class="bg-blue-50 p-6 rounded shadow">
+              <p class="stat-number text-2xl font-bold text-blue-600" data-target="1000000">0</p>
+              <p class="text-gray-600">Downloads</p>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+<!-- Sambutan Rektor -->
+<section class="bg-gray-50 py-12">
+    <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-start gap-6">
+  
+      <!-- Foto Rektor dengan Hover Overlay -->
+      <div class="w-full md:w-auto relative group">
+        <div class="w-48 h-64 overflow-hidden rounded shadow-lg mx-auto">
+          <img src="content/rektor-ub.jpg"
+               alt="Foto Rektor"
+               class="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105" />
+          <!-- Overlay saat hover -->
+          <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition duration-300 rounded"></div>
+        </div>
+      </div>
+  
+      <!-- Teks Sambutan -->
+      <div class="md:w-2/3 w-full">
+        <h2 class="text-2xl font-bold mb-2">Sambutan Rektor</h2>
+        <h3 class="text-lg font-semibold">Prof. Dr. Widodo, S.Si., M.Si., Ph.D.Med.Sc.</h3>
+        <blockquote class="italic text-blue-700 my-4">
+          "Kami bangga mempersembahkan BRIGHT sebagai wadah inovasi dan pengetahuan dari Universitas Brawijaya kepada dunia."
+        </blockquote>
+        <p class="text-gray-700">
+          Selamat datang di BRIGHT, representasi dari semangat kolaborasi dan pengabdian kami untuk ilmu pengetahuan dan masyarakat luas. Kami percaya setiap riset yang dilakukan di UB adalah kontribusi nyata untuk masa depan Indonesia dan dunia.
+        </p>
+      </div>
+  
+    </div>
+  </section>
+  <section class="bg-gray-100 py-12">
+    <div class="max-w-7xl mx-auto px-4 relative">
+      <h2 class="text-3xl font-bold text-center mb-12 text-[#042338]">BRIGHT RESEARCH HIGHLIGHT</h2>
+      
+      <!-- Cards Container -->
+      <div class="relative">
+        <div class="cards-wrapper">
+          <div class="cards-container" id="cardsContainer">
+            <!-- Card 1 - Reconstruction -->
+            <div class="magazine-card rounded-xl bg-cover bg-center" style="background-image: url('content/page1_1.jpg'), width: 500px, height: 300px, overflow: hidden, display: flex, justify-content: center, align-items: center)">
+              <div class="card-content">
+                <div class="absolute top-4 left-4 edition-badge px-4 py-1 text-sm font-bold">EDITION 2021</div>
+                <h3 class="text-xl font-bold mb-2">Reconstruction Of State</h3>
+                <p class="text-sm mb-4">To Optimize National Resilience In Indonesia</p>
+                <div class="text-xs space-y-1">
+                  <p>• Denying the Accusation of Plagiarism</p>
+                  <p>• Power Relations at Play</p>
+                </div>
+              </div>
+              <div class="hover-overlay">
+                <div class="hover-content">
+                  <h4 class="text-lg font-bold mb-2">Read More</h4>
+                  <p class="text-sm">Click to explore this research</p>
+                </div>
+              </div>
+            </div>
+ 
+            
+            <!-- Card 3 - Biotechnology -->
+            <div class="magazine-card rounded-xl bg-cover bg-center" style="background-image: url('content/page1_2.jpg'); width: 500px; height: 80px; overflow: hidden; display: flex; justify-content: center; align-items: center;">
+              <div class="card-content">
+                <div class="absolute top-4 left-4 edition-badge px-4 py-1 text-sm font-bold">EDITION 2022</div>
+                <div class="text-center">
+                  <div class="text-2xl font-bold mb-2">BRIGHT</div>
+                  <div class="text-sm uppercase tracking-widest mb-4">2023 EDITION</div>
+                  <h3 class="text-lg font-bold mb-2">Biotechnology Solution</h3>
+                  <p class="text-xs">Advancement in Natural Resources</p>
+                </div>
+              </div>
+              <div class="hover-overlay">
+                <div class="hover-content">
+                  <h4 class="text-lg font-bold mb-2">Innovation</h4>
+                  <p class="text-sm">Discover biotechnology breakthroughs</p>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Card 4 - Environmental Science -->
+            <div class="magazine-card rounded-xl bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1569163139394-de4e4f43e4e5?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80')">
+              <div class="card-content">
+                <div class="absolute top-4 left-4 edition-badge px-4 py-1 text-sm font-bold">EDITION 2023</div>
+                <h3 class="text-xl font-bold mb-2">Environmental Science</h3>
+                <p class="text-sm mb-4">Sustainable Development Research</p>
+                <div class="text-xs space-y-1">
+                  <p>• Climate Change Solutions</p>
+                  <p>• Green Technology Innovation</p>
+                </div>
+              </div>
+              <div class="hover-overlay">
+                <div class="hover-content">
+                  <h4 class="text-lg font-bold mb-2">Sustainability</h4>
+                  <p class="text-sm">Environmental research insights</p>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Card 5 - Digital Innovation -->
+            <div class="magazine-card rounded-xl bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1518709268805-4e9042af2176?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80')">
+              <div class="card-content">
+                <div class="absolute top-4 right-4 text-4xl font-bold text-[#FF9907] opacity-70">05</div>
+                <div class="text-center">
+                  <div class="text-xs uppercase tracking-widest mb-1">BRIGHT</div>
+                  <div class="text-2xl font-bold mb-1">DIGITAL</div>
+                  <div class="text-lg mb-4">INNOVATION</div>
+                  <div class="flex justify-center gap-2 flex-wrap">
+                    <span class="bg-black bg-opacity-60 px-3 py-1 text-xs rounded">AI</span>
+                    <span class="bg-black bg-opacity-60 px-3 py-1 text-xs rounded">TECH</span>
+                    <span class="bg-black bg-opacity-60 px-3 py-1 text-xs rounded">FUTURE</span>
+                  </div>
+                </div>
+              </div>
+              <div class="hover-overlay">
+                <div class="hover-content">
+                  <h4 class="text-lg font-bold mb-2">Technology</h4>
+                  <p class="text-sm">Digital transformation research</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Navigation Arrows -->
+        <button id="prevBtn" class="nav-arrow prev absolute left-[-4rem] top-1/2 -translate-y-1/2 w-12 h-12 rounded-full flex items-center justify-center text-white z-20">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+        <button id="nextBtn" class="nav-arrow absolute right-[-4rem] top-1/2 -translate-y-1/2 w-12 h-12 rounded-full flex items-center justify-center text-white z-20">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
+      </div>
+      
+      <!-- Indicators -->
+      <div class="flex justify-center space-x-2 mt-8">
+        <button class="w-3 h-3 rounded-full bg-gray-300 indicator transition-all duration-300" data-index="0"></button>
+        <button class="w-3 h-3 rounded-full bg-[#FF9907] indicator active transition-all duration-300" data-index="1"></button>
+        <button class="w-3 h-3 rounded-full bg-gray-300 indicator transition-all duration-300" data-index="2"></button>
+        <button class="w-3 h-3 rounded-full bg-gray-300 indicator transition-all duration-300" data-index="3"></button>
+        <button class="w-3 h-3 rounded-full bg-gray-300 indicator transition-all duration-300" data-index="4"></button>
+      </div>
+    </div>
+  
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        const cardsContainer = document.getElementById('cardsContainer');
+        const cards = document.querySelectorAll('.magazine-card');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const indicators = document.querySelectorAll('.indicator');
+        
+        let currentIndex = 0;
+        const cardCount = cards.length;
+        const cardWidth = 280 + 32; // card width + gap
+        
+        // Clone first and last cards for seamless looping
+        const firstCard = cards[0].cloneNode(true);
+        const lastCard = cards[cardCount - 1].cloneNode(true);
+        
+        cardsContainer.appendChild(firstCard);
+        cardsContainer.insertBefore(lastCard, cards[0]);
+        
+        // Update cards container position
+        cardsContainer.style.transform = `translateX(-${cardWidth}px)`;
+        
+        function updateCards() {
+          const offset = -(currentIndex + 1) * cardWidth;
+          cardsContainer.style.transform = `translateX(${offset}px)`;
+          
+          // Update center card styling
+          const allCards = document.querySelectorAll('.magazine-card');
+          allCards.forEach((card, index) => {
+            card.classList.remove('center-card', 'side-card');
+            if (index === currentIndex + 1) {
+              card.classList.add('center-card');
+            } else if (Math.abs(index - (currentIndex + 1)) === 1) {
+              card.classList.add('side-card');
+            }
+          });
+          
+          // Update indicators
+          indicators.forEach((indicator, index) => {
+            if (index === currentIndex) {
+              indicator.classList.add('bg-[#FF9907]');
+              indicator.classList.remove('bg-gray-300');
+            } else {
+              indicator.classList.add('bg-gray-300');
+              indicator.classList.remove('bg-[#FF9907]');
+            }
+          });
+        }
+        
+        function handleTransitionEnd() {
+          if (currentIndex >= cardCount) {
+            currentIndex = 0;
+            cardsContainer.style.transition = 'none';
+            cardsContainer.style.transform = `translateX(-${cardWidth}px)`;
+            setTimeout(() => {
+              cardsContainer.style.transition = 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+            }, 50);
+          } else if (currentIndex < 0) {
+            currentIndex = cardCount - 1;
+            cardsContainer.style.transition = 'none';
+            cardsContainer.style.transform = `translateX(-${cardCount * cardWidth}px)`;
+            setTimeout(() => {
+              cardsContainer.style.transition = 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+            }, 50);
+          }
+          
+          // Update indicators after transition
+          indicators.forEach((indicator, index) => {
+            if (index === currentIndex) {
+              indicator.classList.add('bg-[#FF9907]');
+              indicator.classList.remove('bg-gray-300');
+            } else {
+              indicator.classList.add('bg-gray-300');
+              indicator.classList.remove('bg-[#FF9907]');
+            }
+          });
+        }
+        
+        cardsContainer.addEventListener('transitionend', handleTransitionEnd);
+        
+        // Next card
+        nextBtn.addEventListener('click', () => {
+          currentIndex++;
+          updateCards();
+        });
+        
+        // Previous card
+        prevBtn.addEventListener('click', () => {
+          currentIndex--;
+          updateCards();
+        });
+        
+        // Indicator navigation
+        indicators.forEach((indicator, index) => {
+          indicator.addEventListener('click', () => {
+            currentIndex = index;
+            updateCards();
+          });
+        });
+        
+        // Auto-rotate cards every 5 seconds
+        let autoRotate = setInterval(() => {
+          currentIndex++;
+          updateCards();
+        }, 5000);
+        
+        // Pause auto-rotate on hover
+        const carouselContainer = document.querySelector('.cards-wrapper');
+        carouselContainer.addEventListener('mouseenter', () => {
+          clearInterval(autoRotate);
+        });
+        
+        carouselContainer.addEventListener('mouseleave', () => {
+          autoRotate = setInterval(() => {
+            currentIndex++;
+            updateCards();
+          }, 5000);
+        });
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'ArrowLeft') {
+            currentIndex--;
+            updateCards();
+          } else if (e.key === 'ArrowRight') {
+            currentIndex++;
+            updateCards();
+          }
+        });
+        
+        // Initial setup
+        updateCards();
+      });
+    </script>
+  </section>
+      
+      <!-- Right Now Section (Berita Terkini) -->
+      <section class="bg-white py-12">
+        <div class="max-w-7xl mx-auto px-4">
+          <h3 class="text-2xl font-bold mb-6">Right Now</h3>
+          <div class="grid md:grid-cols-3 gap-6">
+            <div class="bg-gray-100 p-4 rounded shadow hover:shadow-lg transition">
+              <h4 class="text-lg font-semibold mb-2">Update terkini 1</h4>
+              <p class="text-sm text-gray-600">Deskripsi singkat dari berita atau update terkini yang sedang berlangsung di UB atau BRIGHT.</p>
+              <a href="#" class="text-blue-600 text-sm mt-2 inline-block hover:underline">Baca selengkapnya →</a>
+            </div>
+            <div class="bg-gray-100 p-4 rounded shadow hover:shadow-lg transition">
+              <h4 class="text-lg font-semibold mb-2">Update terkini 2</h4>
+              <p class="text-sm text-gray-600">Informasi terbaru mengenai publikasi, seminar, atau event yang berkaitan dengan riset universitas.</p>
+              <a href="#" class="text-blue-600 text-sm mt-2 inline-block hover:underline">Baca selengkapnya →</a>
+            </div>
+            <div class="bg-gray-100 p-4 rounded shadow hover:shadow-lg transition">
+              <h4 class="text-lg font-semibold mb-2">Update terkini 3</h4>
+              <p class="text-sm text-gray-600">Highlight mingguan atau bulanan dari BRIGHT yang menampilkan karya dan peneliti unggulan.</p>
+              <a href="#" class="text-blue-600 text-sm mt-2 inline-block hover:underline">Baca selengkapnya →</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+  <!-- Latest Articles Grid -->
+  <!-- Latest Articles Grid -->
+  <section class="bg-white py-8">
+    <div class="max-w-7xl mx-auto px-4">
+      <h3 class="text-xl font-bold mb-6">Latest Articles</h3>
+      
+      <!-- Baris 1 (Selalu terlihat) -->
+      <div class="article-row grid gap-6 md:grid-cols-3 mb-6">
+        <!-- Artikel 1 -->
+        <div class="bg-gray-50 p-4 rounded-lg shadow hover:shadow-md transition duration-300 border border-gray-200">
+          <div class="h-40 bg-gradient-to-r from-blue-100 to-indigo-100 mb-3 rounded flex items-center justify-center text-gray-400">[Gambar 1]</div>
+          <h4 class="font-semibold mb-1">Pengaruh Pola Makan Terhadap Kesehatan Mental</h4>
+          <p class="text-sm text-gray-600 mb-2">Studi terbaru menunjukkan hubungan signifikan antara konsumsi makanan bergizi dengan penurunan tingkat depresi...</p>
+          <div class="flex justify-between items-center">
+            <span class="text-xs text-gray-500">15 Jan 2023</span>
+            <a href="#" class="text-blue-600 text-sm hover:underline">Baca →</a>
+          </div>
+        </div>
+        
+        <!-- Artikel 2 -->
+        <div class="bg-gray-50 p-4 rounded-lg shadow hover:shadow-md transition duration-300 border border-gray-200">
+          <div class="h-40 bg-gradient-to-r from-green-100 to-teal-100 mb-3 rounded flex items-center justify-center text-gray-400">[Gambar 2]</div>
+          <h4 class="font-semibold mb-1">Inovasi Material Ramah Lingkungan untuk Konstruksi</h4>
+          <p class="text-sm text-gray-600 mb-2">Material baru berbasis limbah pertanian menunjukkan kekuatan yang menjanjikan untuk aplikasi konstruksi berkelanjutan...</p>
+          <div class="flex justify-between items-center">
+            <span class="text-xs text-gray-500">10 Jan 2023</span>
+            <a href="#" class="text-blue-600 text-sm hover:underline">Baca →</a>
+          </div>
+        </div>
+        
+        <!-- Artikel 3 -->
+        <div class="bg-gray-50 p-4 rounded-lg shadow hover:shadow-md transition duration-300 border border-gray-200">
+          <div class="h-40 bg-gradient-to-r from-purple-100 to-pink-100 mb-3 rounded flex items-center justify-center text-gray-400">[Gambar 3]</div>
+          <h4 class="font-semibold mb-1">Dampak Media Sosial pada Perilaku Remaja</h4>
+          <p class="text-sm text-gray-600 mb-2">Analisis longitudinal mengungkapkan pola penggunaan media sosial dan kaitannya dengan perkembangan sosial remaja...</p>
+          <div class="flex justify-between items-center">
+            <span class="text-xs text-gray-500">5 Jan 2023</span>
+            <a href="#" class="text-blue-600 text-sm hover:underline">Baca →</a>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Baris 2 (Hidden by default) -->
+      <div class="article-row hidden grid gap-6 md:grid-cols-3 mb-6">
+        <!-- Artikel 4 -->
+        <div class="bg-gray-50 p-4 rounded-lg shadow hover:shadow-md transition duration-300 border border-gray-200">
+          <div class="h-40 bg-gradient-to-r from-yellow-100 to-orange-100 mb-3 rounded flex items-center justify-center text-gray-400">[Gambar 4]</div>
+          <h4 class="font-semibold mb-1">Terapi Gen untuk Penyakit Langka</h4>
+          <p class="text-sm text-gray-600 mb-2">Penelitian terbaru menunjukkan keberhasilan pendekatan terapi gen dalam mengobati penyakit genetik langka...</p>
+          <div class="flex justify-between items-center">
+            <span class="text-xs text-gray-500">28 Des 2022</span>
+            <a href="#" class="text-blue-600 text-sm hover:underline">Baca →</a>
+          </div>
+        </div>
+        
+        <!-- Artikel 5 -->
+        <div class="bg-gray-50 p-4 rounded-lg shadow hover:shadow-md transition duration-300 border border-gray-200">
+          <div class="h-40 bg-gradient-to-r from-red-100 to-amber-100 mb-3 rounded flex items-center justify-center text-gray-400">[Gambar 5]</div>
+          <h4 class="font-semibold mb-1">Kecerdasan Buatan dalam Diagnosis Medis</h4>
+          <p class="text-sm text-gray-600 mb-2">AI menunjukkan akurasi 95% dalam mendeteksi kanker payudara dari gambar mammogram, lebih tinggi dari rata-rata dokter...</p>
+          <div class="flex justify-between items-center">
+            <span class="text-xs text-gray-500">20 Des 2022</span>
+            <a href="#" class="text-blue-600 text-sm hover:underline">Baca →</a>
+          </div>
+        </div>
+        
+        <!-- Artikel 6 -->
+        <div class="bg-gray-50 p-4 rounded-lg shadow hover:shadow-md transition duration-300 border border-gray-200">
+          <div class="h-40 bg-gradient-to-r from-cyan-100 to-blue-100 mb-3 rounded flex items-center justify-center text-gray-400">[Gambar 6]</div>
+          <h4 class="font-semibold mb-1">Energi Terbarukan di Perkotaan</h4>
+          <p class="text-sm text-gray-600 mb-2">Implementasi panel surya transparan pada gedung perkantoran mampu mengurangi konsumsi energi hingga 40%...</p>
+          <div class="flex justify-between items-center">
+            <span class="text-xs text-gray-500">15 Des 2022</span>
+            <a href="#" class="text-blue-600 text-sm hover:underline">Baca →</a>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Baris 3 (Hidden by default) -->
+      <div class="article-row hidden grid gap-6 md:grid-cols-3 mb-6">
+        <!-- Artikel 7 -->
+        <div class="bg-gray-50 p-4 rounded-lg shadow hover:shadow-md transition duration-300 border border-gray-200">
+          <div class="h-40 bg-gradient-to-r from-emerald-100 to-green-100 mb-3 rounded flex items-center justify-center text-gray-400">[Gambar 7]</div>
+          <h4 class="font-semibold mb-1">Pengaruh Perubahan Iklim pada Ekosistem Laut</h4>
+          <p class="text-sm text-gray-600 mb-2">Studi 10 tahun menunjukkan penurunan keanekaragaman hayati laut sebesar 12% di wilayah tropis akibat pemanasan global...</p>
+          <div class="flex justify-between items-center">
+            <span class="text-xs text-gray-500">10 Des 2022</span>
+            <a href="#" class="text-blue-600 text-sm hover:underline">Baca →</a>
+          </div>
+        </div>
+        
+        <!-- Artikel 8 -->
+        <div class="bg-gray-50 p-4 rounded-lg shadow hover:shadow-md transition duration-300 border border-gray-200">
+          <div class="h-40 bg-gradient-to-r from-violet-100 to-purple-100 mb-3 rounded flex items-center justify-center text-gray-400">[Gambar 8]</div>
+          <h4 class="font-semibold mb-1">Neurosains dan Pembelajaran Bahasa</h4>
+          <p class="text-sm text-gray-600 mb-2">Pemindaian otak mengungkapkan mekanisme baru bagaimana otak memproses bahasa kedua pada usia dewasa...</p>
+          <div class="flex justify-between items-center">
+            <span class="text-xs text-gray-500">5 Des 2022</span>
+            <a href="#" class="text-blue-600 text-sm hover:underline">Baca →</a>
+          </div>
+        </div>
+        
+        <!-- Artikel 9 -->
+        <div class="bg-gray-50 p-4 rounded-lg shadow hover:shadow-md transition duration-300 border border-gray-200">
+          <div class="h-40 bg-gradient-to-r from-rose-100 to-pink-100 mb-3 rounded flex items-center justify-center text-gray-400">[Gambar 9]</div>
+          <h4 class="font-semibold mb-1">Robotika dalam Pertanian Presisi</h4>
+          <p class="text-sm text-gray-600 mb-2">Implementasi robot pemetik buah dengan computer vision mampu meningkatkan efisiensi panen hingga 35%...</p>
+          <div class="flex justify-between items-center">
+            <span class="text-xs text-gray-500">30 Nov 2022</span>
+            <a href="#" class="text-blue-600 text-sm hover:underline">Baca →</a>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Button Group -->
+      <div class="flex justify-center gap-4 mt-8">
+        <button id="view-more-btn" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-300">
+          View More
+        </button>
+        <button id="view-less-btn" class="hidden bg-gray-200 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-300 transition duration-300">
+          View Less
+        </button>
+      </div>
+      
+      <!-- View at Topics Link -->
+      <div class="text-center mt-12">
+        <a href="#topics" class="inline-block px-6 py-2 bg-gray-800 text-white rounded-md hover:bg-gray-900 transition duration-300 shadow">
+          View at Topics →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-white mt-12">
+    <div class="max-w-7xl mx-auto px-4 py-6 text-sm text-center">
+        <p class="mt-2"><a href="#">About</a> • <a href="#">Topics</a> • <a href="#">Unduh</a></p>
+        <br>
+        <p>© 2025 BRIGHT • Universitas Brawijaya</p>
+        <br>
+        <p>Email: redaksi@ub.ac.id | Telp: (0341) 123456</p>
+        <p>Jl. Veteran, Malang, Jawa Timur 65145</p>
+        <p> </p>
+        <p>Follow us: <a href="#">Instagram</a> • <a href="#">YouTube</a> • <a href="#">LinkedIn</a></p>
+      
+    </div>
+  </footer>
+
+</body>
+
+
+
+</html>

@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Author Profile - BRIGHT</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .title-bar {
+      text-align: center;
+      font-family: "Belriner Regular";
+      font-size: 1.8em;
+      font-weight: bold;
+      padding: 0.5em 0;
+      background-color: #042338;
+      color: white;
+    }
+    
+    .author-header {
+      background: linear-gradient(135deg, #042338 0%, #00406C 100%);
+    }
+    
+    .article-card {
+      transition: all 0.3s ease;
+      border-left: 4px solid transparent;
+    }
+    
+    .article-card:hover {
+      transform: translateY(-3px);
+      border-left-color: #FF9907;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    
+    .badge {
+      display: inline-block;
+      padding: 0.25em 0.5em;
+      font-size: 0.75em;
+      font-weight: 600;
+      line-height: 1;
+      text-align: center;
+      white-space: nowrap;
+      vertical-align: baseline;
+      border-radius: 0.25rem;
+    }
+  </style>
+</head>
+<body class="bg-gray-50">
+  <!-- Title Bar -->
+  <div class="title-bar">BRIGHT</div>
+
+  <!-- Navbar -->
+  <header class="bg-white shadow-md sticky top-0 z-40" style="background: #00406C; color: white">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+      <nav class="flex space-x-6 text-sm">
+        <a href="index.html" class="hover:underline text-[#FFB854]">Home</a>
+        <a href="topics.html" class="hover:underline text-[#FFB854]">Topics</a>
+        <a href="advanced-search.html" class="hover:underline text-[#FFB854]">Advanced Search</a>
+        <a href="#" class="hover:underline text-[#FFB854]">About</a>
+      </nav>
+      <div>
+        <input type="text" placeholder="Search..." class="border border-gray-300 px-3 py-1 rounded text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500">
+      </div>
+    </div>
+  </header>
+
+  <!-- Author Header -->
+  <section class="author-header text-white py-12">
+    <div class="max-w-4xl mx-auto px-4 flex flex-col md:flex-row items-center">
+      <div class="w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-white overflow-hidden shadow-lg mb-6 md:mb-0 md:mr-8">
+        <img src="https://randomuser.me/api/portraits/women/43.jpg" alt="Yuni Kusuma Arumsari" class="w-full h-full object-cover">
+      </div>
+      <div>
+        <h1 class="text-3xl md:text-4xl font-bold mb-2">Prof. Yuni Kusuma Arumsari, Ph.D.</h1>
+        <p class="text-xl text-gray-200 mb-4">Professor of Political Science</p>
+        <div class="flex flex-wrap gap-2 mb-4">
+          <span class="badge bg-[#FF9907]">Political Science</span>
+          <span class="badge bg-[#FF9907]">Governance</span>
+          <span class="badge bg-[#FF9907]">Public Policy</span>
+        </div>
+        <div class="flex space-x-4">
+          <a href="#" class="text-white hover:text-[#FFB854]">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+          </a>
+          <a href="#" class="text-white hover:text-[#FFB854]">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+            </svg>
+          </a>
+          <a href="#" class="text-white hover:text-[#FFB854]">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 12.713l-11.985-9.713h23.97l-11.985 9.713zm0 2.574l-12-9.725v15.438h24v-15.438l-12 9.725z"/>
+            </svg>
+          </a>
+          <a href="#" class="text-white hover:text-[#FFB854]">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-2 16h-2v-6h2v6zm-1-6.891c-.607 0-1.1-.496-1.1-1.109 0-.612.492-1.109 1.1-1.109s1.1.497 1.1 1.109c0 .613-.493 1.109-1.1 1.109zm8 6.891h-1.998v-2.861c0-1.881-2.002-1.722-2.002 0v2.861h-2v-6h2v1.093c.872-1.616 4-1.736 4 1.548v3.359z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Author Bio -->
+  <section class="max-w-4xl mx-auto px-4 py-8">
+    <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+      <h2 class="text-2xl font-bold mb-4 text-[#042338]">Biography</h2>
+      <div class="prose">
+        <p>Prof. Yuni Kusuma Arumsari is a distinguished scholar in the field of Political Science with over 20 years of research experience in governance and public policy. She obtained her Ph.D. from the University of Melbourne, Australia, with a dissertation on "Decentralization and Democratic Governance in Southeast Asia".</p>
+        
+        <p>Currently serving as the Head of Political Science Department at Universitas Brawijaya, she has published extensively in international journals and served as a consultant for various government agencies on policy formulation and institutional reform.</p>
+        
+        <p>Her research interests include:</p>
+        <ul class="list-disc pl-5">
+          <li>State reconstruction and institutional development</li>
+          <li>Decentralization and local governance</li>
+          <li>Public policy analysis</li>
+          <li>Democratization processes in Southeast Asia</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Education & Experience -->
+    <div class="grid md:grid-cols-2 gap-6 mb-8">
+      <!-- Education -->
+      <div class="bg-white rounded-lg shadow-md p-6">
+        <h3 class="text-xl font-bold mb-4 text-[#042338] border-b pb-2">Education</h3>
+        <ul class="space-y-4">
+          <li>
+            <h4 class="font-semibold">Ph.D. in Political Science</h4>
+            <p class="text-sm text-gray-600">University of Melbourne, Australia (2005)</p>
+          </li>
+          <li>
+            <h4 class="font-semibold">M.A. in Public Administration</h4>
+            <p class="text-sm text-gray-600">National University of Singapore (1999)</p>
+          </li>
+          <li>
+            <h4 class="font-semibold">B.A. in Political Science</h4>
+            <p class="text-sm text-gray-600">Universitas Gadjah Mada, Indonesia (1995)</p>
+          </li>
+        </ul>
+      </div>
+      
+      <!-- Professional Experience -->
+      <div class="bg-white rounded-lg shadow-md p-6">
+        <h3 class="text-xl font-bold mb-4 text-[#042338] border-b pb-2">Professional Experience</h3>
+        <ul class="space-y-4">
+          <li>
+            <h4 class="font-semibold">Head of Political Science Department</h4>
+            <p class="text-sm text-gray-600">Universitas Brawijaya (2015-Present)</p>
+          </li>
+          <li>
+            <h4 class="font-semibold">Visiting Professor</h4>
+            <p class="text-sm text-gray-600">University of Malaya, Malaysia (2012-2014)</p>
+          </li>
+          <li>
+            <h4 class="font-semibold">Policy Consultant</h4>
+            <p class="text-sm text-gray-600">Ministry of Home Affairs, Indonesia (2008-2012)</p>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Publications -->
+    <div class="bg-white rounded-lg shadow-md p-6">
+      <h2 class="text-2xl font-bold mb-6 text-[#042338]">Publications</h2>
+      
+      <!-- Filter Options -->
+      <div class="flex flex-wrap gap-3 mb-6">
+        <button class="px-4 py-2 bg-[#FF9907] text-white rounded-full text-sm font-medium">All</button>
+        <button class="px-4 py-2 bg-gray-200 text-gray-700 rounded-full text-sm font-medium">Journal Articles</button>
+        <button class="px-4 py-2 bg-gray-200 text-gray-700 rounded-full text-sm font-medium">Books</button>
+        <button class="px-4 py-2 bg-gray-200 text-gray-700 rounded-full text-sm font-medium">Conference Papers</button>
+        <button class="px-4 py-2 bg-gray-200 text-gray-700 rounded-full text-sm font-medium">Research Reports</button>
+      </div>
+      
+      <!-- Publication List -->
+      <div class="space-y-4">
+        <!-- Publication 1 -->
+        <div class="article-card bg-white border border-gray-200 rounded-lg p-4">
+          <h3 class="text-lg font-bold mb-2 text-[#042338]">
+            <a href="article-1.html" class="hover:text-[#FF9907]">Reconstruction of State to Optimize National Resilience in Indonesia</a>
+          </h3>
+          <p class="text-sm text-gray-600 mb-2">This research examines the multifaceted approach to state reconstruction in Indonesia, analyzing the complex interplay between institutional reforms, socio-economic development, and security enhancement.</p>
+          <div class="flex flex-wrap items-center text-xs text-gray-500 gap-2">
+            <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded">Journal Article</span>
+            <span>BRIGHT Research Journal, 2021</span>
+            <span class="ml-auto">15 citations</span>
+          </div>
+        </div>
+        
+        <!-- Publication 2 -->
+        <div class="article-card bg-white border border-gray-200 rounded-lg p-4">
+          <h3 class="text-lg font-bold mb-2 text-[#042338]">
+            <a href="#" class="hover:text-[#FF9907]">Decentralization and Democratic Governance in Southeast Asia</a>
+          </h3>
+          <p class="text-sm text-gray-600 mb-2">Comparative analysis of decentralization policies and their impact on democratic governance in Indonesia, Malaysia, and the Philippines.</p>
+          <div class="flex flex-wrap items-center text-xs text-gray-500 gap-2">
+            <span class="bg-green-100 text-green-800 px-2 py-1 rounded">Book Chapter</span>
+            <span>Routledge, 2019</span>
+            <span class="ml-auto">42 citations</span>
+          </div>
+        </div>
+        
+        <!-- Publication 3 -->
+        <div class="article-card bg-white border border-gray-200 rounded-lg p-4">
+          <h3 class="text-lg font-bold mb-2 text-[#042338]">
+            <a href="#" class="hover:text-[#FF9907]">Digital Governance and Public Service Innovation</a>
+          </h3>
+          <p class="text-sm text-gray-600 mb-2">Exploring how digital technologies are reshaping government-citizen interactions in Indonesia's public sector.</p>
+          <div class="flex flex-wrap items-center text-xs text-gray-500 gap-2">
+            <span class="bg-purple-100 text-purple-800 px-2 py-1 rounded">Conference Paper</span>
+            <span>ICEGOV 2020</span>
+            <span class="ml-auto">8 citations</span>
+          </div>
+        </div>
+        
+        <!-- Publication 4 -->
+        <div class="article-card bg-white border border-gray-200 rounded-lg p-4">
+          <h3 class="text-lg font-bold mb-2 text-[#042338]">
+            <a href="#" class="hover:text-[#FF9907]">Local Governance and Regional Development in Eastern Indonesia</a>
+          </h3>
+          <p class="text-sm text-gray-600 mb-2">Assessment of governance models and their effectiveness in promoting equitable development in Indonesia's eastern regions.</p>
+          <div class="flex flex-wrap items-center text-xs text-gray-500 gap-2">
+            <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded">Research Report</span>
+            <span>Ministry of Home Affairs, 2018</span>
+            <span class="ml-auto">23 citations</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Pagination -->
+      <div class="mt-8 flex justify-center">
+        <nav class="inline-flex rounded-md shadow">
+          <a href="#" class="px-3 py-2 rounded-l-md border border-gray-300 bg-white text-gray-500 hover:bg-gray-50">
+            Previous
+          </a>
+          <a href="#" class="px-3 py-2 border-t border-b border-gray-300 bg-white text-blue-600 font-medium">
+            1
+          </a>
+          <a href="#" class="px-3 py-2 border border-gray-300 bg-white text-gray-500 hover:bg-gray-50">
+            2
+          </a>
+          <a href="#" class="px-3 py-2 border border-gray-300 bg-white text-gray-500 hover:bg-gray-50">
+            3
+          </a>
+          <a href="#" class="px-3 py-2 rounded-r-md border border-gray-300 bg-white text-gray-500 hover:bg-gray-50">
+            Next
+          </a>
+        </nav>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-[#0D283D] text-white py-8 mt-12">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="grid md:grid-cols-3 gap-8">
+        <div>
+          <h3 class="text-lg font-semibold mb-4">BRIGHT</h3>
+          <p class="text-sm text-gray-300">Repositori penelitian dan publikasi ilmiah Universitas Brawijaya.</p>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+          <ul class="space-y-2 text-sm text-gray-300">
+            <li><a href="index.html" class="hover:text-amber-300">Home</a></li>
+            <li><a href="topics.html" class="hover:text-amber-300">Topics</a></li>
+            <li><a href="advanced-search.html" class="hover:text-amber-300">Advanced Search</a></li>
+            <li><a href="#" class="hover:text-amber-300">About</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Contact</h3>
+          <ul class="space-y-2 text-sm text-gray-300">
+            <li>redaksi@ub.ac.id</li>
+            <li>(0341) 123456</li>
+            <li>Jl. Veteran, Malang</li>
+          </ul>
+        </div>
+      </div>
+      <div class="border-t border-gray-700 mt-8 pt-6 text-sm text-gray-400 text-center">
+        <p>© 2025 BRIGHT - Universitas Brawijaya. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

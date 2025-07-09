@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>BRIGHT - Reconstruction Of State</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .title-bar {
+      text-align: center;
+      font-family: "Belriner Regular";
+      font-size: 1.8em;
+      font-weight: bold;
+      padding: 0.5em 0;
+      background-color: #042338;
+      color: white;
+    }
+    
+    .magazine-hero {
+      background: linear-gradient(135deg, #042338 0%, #00406C 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .magazine-hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="20" cy="20" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="80" cy="40" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="40" cy="80" r="1" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grain)"/></svg>');
+      opacity: 0.3;
+    }
+    
+    .article-content {
+      font-family: Georgia, serif;
+      line-height: 1.8;
+      color: #333;
+    }
+    
+    .article-content h1 {
+      font-size: 2.5rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+      color: #042338;
+    }
+    
+    .article-content h2 {
+      font-size: 1.8rem;
+      font-weight: bold;
+      margin: 2rem 0 1rem 0;
+      color: #042338;
+      border-left: 4px solid #FF9907;
+      padding-left: 1rem;
+    }
+    
+    .article-content h3 {
+      font-size: 1.4rem;
+      font-weight: bold;
+      margin: 1.5rem 0 0.5rem 0;
+      color: #00406C;
+    }
+    
+    .article-content p {
+      margin-bottom: 1.5rem;
+      text-align: justify;
+    }
+    
+    .article-content blockquote {
+      background: #f8f9fa;
+      border-left: 4px solid #FF9907;
+      padding: 1rem 1.5rem;
+      margin: 2rem 0;
+      font-style: italic;
+      color: #555;
+    }
+    
+    .article-content ul, .article-content ol {
+      margin: 1rem 0 1.5rem 2rem;
+    }
+    
+    .article-content li {
+      margin-bottom: 0.5rem;
+    }
+    
+    .reading-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 0%;
+      height: 4px;
+      background: linear-gradient(90deg, #FF9907, #FFB854);
+      z-index: 999;
+      transition: width 0.1s ease;
+    }
+    
+    .floating-toc {
+      position: fixed;
+      right: 2rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      padding: 1.5rem;
+      max-width: 250px;
+      max-height: 400px;
+      overflow-y: auto;
+      opacity: 0;
+      transition: all 0.3s ease;
+      z-index: 50;
+    }
+    
+    .floating-toc.visible {
+      opacity: 1;
+    }
+    
+    .floating-toc h4 {
+      font-size: 0.9rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+      color: #042338;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    
+    .floating-toc ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    
+    .floating-toc li {
+      margin-bottom: 0.5rem;
+    }
+    
+    .floating-toc a {
+      color: #666;
+      text-decoration: none;
+      font-size: 0.85rem;
+      display: block;
+      padding: 0.3rem 0;
+      transition: color 0.2s ease;
+    }
+    
+    .floating-toc a:hover {
+      color: #FF9907;
+    }
+    
+    .floating-toc a.active {
+      color: #FF9907;
+      font-weight: bold;
+    }
+    
+    .share-buttons {
+      position: fixed;
+      left: 2rem;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      z-index: 50;
+    }
+    
+    .share-btn {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      color: white;
+      font-size: 1.2rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+    
+    .share-btn:hover {
+      transform: scale(1.1);
+    }
+    
+    .share-btn.facebook { background: #1877F2; }
+    .share-btn.twitter { background: #1DA1F2; }
+    .share-btn.linkedin { background: #0A66C2; }
+    .share-btn.whatsapp { background: #25D366; }
+    
+    .article-meta {
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      border-radius: 12px;
+      padding: 2rem;
+      margin: 2rem 0;
+      border-left: 4px solid #FF9907;
+    }
+    
+    .related-articles {
+      background: #f8f9fa;
+      border-radius: 12px;
+      padding: 2rem;
+      margin: 3rem 0;
+    }
+    
+    .related-article-card {
+      background: white;
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+    }
+    
+    .related-article-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    }
+    
+    .citation-box {
+      background: #fff3cd;
+      border: 1px solid #ffeaa7;
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin: 2rem 0;
+      font-family: monospace;
+      font-size: 0.9rem;
+    }
+    
+    .back-to-top {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, #FF9907, #FFB854);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      text-decoration: none;
+      opacity: 0;
+      transition: all 0.3s ease;
+      z-index: 50;
+    }
+    
+    .back-to-top.visible {
+      opacity: 1;
+    }
+    
+    .back-to-top:hover {
+      transform: scale(1.1);
+    }
+    
+    @media (max-width: 768px) {
+      .floating-toc, .share-buttons {
+        display: none;
+      }
+      
+      .article-content h1 {
+        font-size: 2rem;
+      }
+      
+      .article-content h2 {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body class="bg-gray-50">
+  <!-- Reading Progress Bar -->
+  <div class="reading-progress" id="reading-progress"></div>
+  
+  <!-- Title Bar -->
+  <div class="title-bar">BRIGHT</div>
+
+  <!-- Navbar -->
+  <header class="bg-white shadow-md sticky top-0 z-40" style="background: #00406C; color: white">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+      <nav class="flex space-x-6 text-sm">
+        <a href="index.html" class="hover:underline text-[#FFB854]">← Back to Home</a>
+        <a href="#" class="hover:underline text-[#FFB854]">Topics</a>
+        <a href="#" class="hover:underline text-[#FFB854]">Advanced Search</a>
+        <a href="#" class="hover:underline text-[#FFB854]">About</a>
+      </nav>
+      <div class="flex items-center space-x-4">
+        <button id="toggle-toc" class="text-[#FFB854] hover:text-[#FF9907] transition">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        </button>
+        <button class="text-[#FFB854] hover:text-[#FF9907] transition">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Magazine Hero Section -->
+  <section class="magazine-hero py-16 text-white relative">
+    <div class="max-w-4xl mx-auto px-4 text-center relative z-10">
+      <div class="inline-block bg-[#FF9907] px-6 py-2 rounded-full text-sm font-bold mb-6">
+        BRIGHT EDITION 2021
+      </div>
+      <!-- BAGIAN JUDUL -->
+      <h1 class="text-4xl md:text-6xl font-bold mb-6 leading-tight">
+        Factors Affecting Financial Decision Making: The Women Lecturer's Perspective
+      </h1>
+      <p class="text-xl md:text-2xl mb-8 text-gray-200">
+        To Optimize National Resilience In Indonesia
+      </p>
+      <div class="flex flex-wrap justify-center gap-4 text-sm">
+        <span class="bg-black bg-opacity-40 px-4 py-2 rounded-full">Political Science</span>
+        <span class="bg-black bg-opacity-40 px-4 py-2 rounded-full">Governance</span>
+        <span class="bg-black bg-opacity-40 px-4 py-2 rounded-full">National Security</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Share Buttons -->
+  <div class="share-buttons">
+    <a href="#" class="share-btn facebook" title="Share on Facebook">
+      <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M18.77 7.46H15.5v-1.9c0-.9.6-1.1 1-1.1h2.2V2.5L15.4 2.5c-3.3 0-4.1 2.4-4.1 4v1.9H9.5v1.9h1.8v9.9h2.5v-9.9h2.2l.77-1.9z"/>
+      </svg>
+    </a>
+    <a href="#" class="share-btn twitter" title="Share on Twitter">
+      <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M22.46 6c-.85.38-1.78.64-2.75.76 1-.6 1.76-1.55 2.12-2.68-.93.55-1.96.95-3.06 1.17-.88-.94-2.13-1.53-3.51-1.53-2.66 0-4.81 2.16-4.81 4.81 0 .38.04.75.13 1.1-4-.2-7.57-2.12-9.95-5.04-.42.72-.66 1.55-.66 2.44 0 1.67.85 3.14 2.14 4-.79-.02-1.53-.24-2.18-.6v.06c0 2.33 1.66 4.28 3.87 4.72-.4.11-.83.17-1.27.17-.31 0-.62-.03-.92-.08.62 1.94 2.42 3.35 4.55 3.39-1.67 1.31-3.77 2.09-6.05 2.09-.39 0-.78-.02-1.17-.07 2.18 1.4 4.77 2.21 7.55 2.21 9.06 0 14.01-7.5 14.01-14.01 0-.21 0-.42-.01-.63.96-.69 1.8-1.56 2.46-2.55z"/>
+      </svg>
+    </a>
+    <a href="#" class="share-btn linkedin" title="Share on LinkedIn">
+      <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+      </svg>
+    </a>
+    <a href="#" class="share-btn whatsapp" title="Share on WhatsApp">
+      <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/>
+      </svg>
+    </a>
+  </div>
+
+  <!-- Floating Table of Contents -->
+  <div class="floating-toc" id="floating-toc">
+    <h4>Contents</h4>
+    <ul>
+      <li><a href="#introduction">Introduction</a></li>
+      <li><a href="#current-challenges">Current Challenges</a></li>
+      <li><a href="#reconstruction-framework">Reconstruction Framework</a></li>
+      <li><a href="#implementation-strategies">Implementation Strategies</a></li>
+      <li><a href="#case-studies">Case Studies</a></li>
+      <li><a href="#future-implications">Future Implications</a></li>
+      <li><a href="#conclusion">Conclusion</a></li>
+    </ul>
+  </div>
+
+  <!-- Main Article Content -->
+  <main class="max-w-4xl mx-auto px-4 py-12">
+    <!-- Article Meta -->
+    <div class="article-meta">
+      <div class="grid md:grid-cols-3 gap-6">
+        <div>
+          <h4 class="font-bold text-[#042338] mb-2">Publication Details</h4>
+          <p class="text-sm text-gray-600">
+            Published: March 2021<br>
+            Volume 1, Issue 1<br>
+            Pages 15-42
+          </p>
+        </div>
+        <div>
+          <h4 class="font-bold text-[#042338] mb-2">Keywords</h4>
+          <div class="flex flex-wrap gap-2">
+            <span class="bg-[#FF9907] text-white px-2 py-1 rounded text-xs">State Reconstruction</span>
+            <span class="bg-[#FF9907] text-white px-2 py-1 rounded text-xs">National Resilience</span>
+            <span class="bg-[#FF9907] text-white px-2 py-1 rounded text-xs">Governance</span>
+            <span class="bg-[#FF9907] text-white px-2 py-1 rounded text-xs">Indonesia</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Authors Section -->
+<section class="authors-section bg-white rounded-lg shadow-md p-6 mb-8">
+  <h3 class="text-xl font-bold mb-6 text-[#042338] border-b pb-2">Authors</h3>
+  <div class="grid md:grid-cols-4 gap-6">
+    <!-- Author 1 -->
+    <div class="author-card text-center">
+      <div class="w-24 h-24 mx-auto mb-3 rounded-full bg-gray-200 overflow-hidden">
+        <img src="content/arumsari.png" alt="Yuni Kusuma Arumsari" class="w-full h-full object-cover">
+      </div>
+      <h4 class="font-semibold"><a href="/author/yuni-arusmari" class="text-[#00406C] hover:text-[#FF9907]">Yuni Kusuma Arumsari</a></h4>
+      <p class="text-sm text-gray-600">Professor of Political Science</p>
+      <p class="text-xs text-gray-500 mt-1">Universitas Brawijaya</p>
+    </div>
+    
+    <!-- Author 2 -->
+    <div class="author-card text-center">
+      <div class="w-24 h-24 mx-auto mb-3 rounded-full bg-gray-200 overflow-hidden">
+        <img src="content/surachman.png" alt="Surachman" class="w-full h-full object-cover">
+      </div>
+      <h4 class="font-semibold"><a href="/author/surachman" class="text-[#00406C] hover:text-[#FF9907]">Surachman</a></h4>
+      <p class="text-sm text-gray-600">Associate Professor of Public Policy</p>
+      <p class="text-xs text-gray-500 mt-1">Universitas Brawijaya</p>
+    </div>
+    
+    <!-- Author 3 -->
+    <div class="author-card text-center">
+      <div class="w-24 h-24 mx-auto mb-3 rounded-full bg-gray-200 overflow-hidden">
+        <img src="content/andarwati.png" alt="Andarwati" class="w-full h-full object-cover">
+      </div>
+      <h4 class="font-semibold"><a href="/author/andarwati" class="text-[#00406C] hover:text-[#FF9907]">Andarwati</a></h4>
+      <p class="text-sm text-gray-600">Researcher in Governance Studies</p>
+      <p class="text-xs text-gray-500 mt-1">Universitas Brawijaya</p>
+    </div>
+    
+    <!-- Author 4 -->
+    <div class="author-card text-center">
+      <div class="w-24 h-24 mx-auto mb-3 rounded-full bg-gray-200 overflow-hidden">
+        <img src="content/sumiati.png" alt="Sumiati" class="w-full h-full object-cover">
+      </div>
+      <h4 class="font-semibold"><a href="/author/sumiati" class="text-[#00406C] hover:text-[#FF9907]">Sumiati</a></h4>
+      <p class="text-sm text-gray-600">Lecturer in International Relations</p>
+      <p class="text-xs text-gray-500 mt-1">Universitas Brawijaya</p>
+    </div>
+  </div>
+</section>
+<section class="share-cite-section bg-white rounded-lg shadow-md p-6 mb-8">
+  <div class="grid md:grid-cols-2 gap-8">
+    <!-- Share Options -->
+    <div>
+      <h3 class="text-xl font-bold mb-4 text-[#042338] border-b pb-2">Share This Article</h3>
+      <div class="flex space-x-4">
+        <a href="#" class="social-share-btn bg-[#1877F2] text-white p-3 rounded-full">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M18.77 7.46H15.5v-1.9c0-.9.6-1.1 1-1.1h2.2V2.5L15.4 2.5c-3.3 0-4.1 2.4-4.1 4v1.9H9.5v1.9h1.8v9.9h2.5v-9.9h2.2l.77-1.9z"/>
+          </svg>
+        </a>
+        <a href="#" class="social-share-btn bg-[#1DA1F2] text-white p-3 rounded-full">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M22.46 6c-.85.38-1.78.64-2.75.76 1-.6 1.76-1.55 2.12-2.68-.93.55-1.96.95-3.06 1.17-.88-.94-2.13-1.53-3.51-1.53-2.66 0-4.81 2.16-4.81 4.81 0 .38.04.75.13 1.1-4-.2-7.57-2.12-9.95-5.04-.42.72-.66 1.55-.66 2.44 0 1.67.85 3.14 2.14 4-.79-.02-1.53-.24-2.18-.6v.06c0 2.33 1.66 4.28 3.87 4.72-.4.11-.83.17-1.27.17-.31 0-.62-.03-.92-.08.62 1.94 2.42 3.35 4.55 3.39-1.67 1.31-3.77 2.09-6.05 2.09-.39 0-.78-.02-1.17-.07 2.18 1.4 4.77 2.21 7.55 2.21 9.06 0 14.01-7.5 14.01-14.01 0-.21 0-.42-.01-.63.96-.69 1.8-1.56 2.46-2.55z"/>
+          </svg>
+        </a>
+        <a href="#" class="social-share-btn bg-[#0A66C2] text-white p-3 rounded-full">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+          </svg>
+        </a>
+        <a href="#" class="social-share-btn bg-[#25D366] text-white p-3 rounded-full">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Citation Box -->
+  
+  <section class="share-cite-section bg-white rounded-lg shadow-md p-6 mb-8">
+    <div class="grid md:grid-cols-2 gap-8">
+          
+      <!-- APA Style -->
+      <div>
+        <h3 class="text-xl font-bold mb-4 text-[#042338] border-b pb-2 invisible md:visible">&nbsp;</h3> <!-- Placeholder agar sejajar -->
+          <div class="citation-box">
+            <h4 class="font-semibold mb-2">APA Style</h4>
+            <p>
+              Pratama, A. S., Nurhaliza, S., & Wijaya, B. (2021). Reconstruction of State to Optimize National Resilience in Indonesia. <em>BRIGHT Research Journal</em>, <em>1</em>(1), 15-42. https://doi.org/10.1234/bright.2021.001
+            </p>
+          </div>
+          <div>
+            <h4 class="font-semibold mb-2">APA Style</h4>
+            <div class="relative group">
+              <p id="apaText" class="text-sm mb-3 pr-10">Pratama, A. S., Nurhaliza, S., & Wijaya, B. (2021). Reconstruction of State to Optimize National Resilience in Indonesia. <em>BRIGHT Research Journal</em>, <em>1</em>(1), 15-42.</p>
+              <button onclick="copyText('apaText', this)" class="absolute top-0 right-0 text-xs bg-[#00406C] text-white px-2 py-1 rounded hover:bg-[#042338] transition">Copy</button>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <!-- BibTeX -->
+      <div>
+        <h3 class="text-xl font-bold mb-4 text-[#042338] border-b pb-2 invisible md:visible">&nbsp;</h3> <!-- Placeholder agar sejajar -->
+        <div class="bg-gray-50 p-4 rounded space-y-6">
+          <div>
+            <h4 class="font-semibold mb-2">BibTeX</h4>
+            <div class="relative group">
+              <pre id="bibtexText" class="text-xs bg-gray-100 p-2 rounded overflow-x-auto pr-12">@article{pratama2021reconstruction,
+    title={Reconstruction of State to Optimize National Resilience in Indonesia},
+    author={Pratama, Agus Surya and Nurhaliza, Siti and Wijaya, Bambang},
+    journal={BRIGHT Research Journal},
+    volume={1},
+    number={1},
+    pages={15--42},
+    year={2021},
+    publisher={Universitas Brawijaya}
+  }</pre>
+              <button onclick="copyText('bibtexText', this)" class="absolute top-2 right-2 text-xs bg-[#00406C] text-white px-2 py-1 rounded hover:bg-[#042338] transition">Copy</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  
+    <!-- Copied Notification -->
+    <div id="copyNotif" class="fixed bottom-6 right-6 bg-green-600 text-white text-sm px-4 py-2 rounded shadow-md hidden transition-opacity duration-300">
+      Copied to clipboard!
+    </div>
+  </section>
+  
+    
+  </div>
+</section>
+<script>
+  function copyText(id, button) {
+    const text = document.getElementById(id).innerText;
+    navigator.clipboard.writeText(text).then(() => {
+      // Show "Copied" notification
+      const notif = document.getElementById('copyNotif');
+      notif.classList.remove('hidden');
+      notif.classList.add('opacity-100');
+
+      // Hide after 2 seconds
+      setTimeout(() => {
+        notif.classList.add('hidden');
+        notif.classList.remove('opacity-100');
+      }, 2000);
+    });
+
+    // Animate button briefly
+    button.classList.add('scale-95', 'bg-green-700');
+    setTimeout(() => {
+      button.classList.remove('scale-95', 'bg-green-700');
+    }, 200);
+  }
+</script>
+
+    <!-- Article Content -->
+    <article class="article-content">
+      <h2 id="introduction">Introduction</h2>
+      <p>
+        The concept of state reconstruction has emerged as a critical discourse in contemporary political science, particularly in the context of developing nations striving to enhance their national resilience. Indonesia, as the world's largest archipelagic state, faces unique challenges in maintaining territorial integrity, social cohesion, and institutional effectiveness across its vast and diverse landscape.
+      </p>
+      <figure class="illustration my-8">
+        <img src="https://images.unsplash.com/photo-1606326608606-aa0b62935f2b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" 
+             alt="Indonesian Governance Illustration"
+             class="w-full h-auto rounded-lg shadow-md">
+        <figcaption class="text-center text-sm text-gray-500 mt-2">Illustration of governance structures in Indonesia (Source: Unsplash)</figcaption>
+      </figure>
+      <p>
+        This research examines the multifaceted approach to state reconstruction in Indonesia, analyzing the complex interplay between institutional reforms, socio-economic development, and security enhancement. The study aims to provide a comprehensive framework for understanding how state reconstruction can be strategically implemented to optimize national resilience in the Indonesian context.
+      </p>
+
+      <blockquote>
+        "The strength of a nation lies not in its military might alone, but in the resilience of its institutions and the unity of its people in facing challenges together."
+      </blockquote>
+
+      <h2 id="current-challenges">Current Challenges in Indonesian State Building</h2>
+      <p>
+        Indonesia's journey toward comprehensive state reconstruction faces several significant challenges that must be addressed systematically. These challenges span multiple dimensions of governance, from institutional capacity to social integration.
+      </p>
+
+      <h3>Institutional Fragmentation</h3>
+      <p>
+        The decentralization process initiated in 1999 has created a complex multi-level governance system that, while democratically progressive, has also introduced coordination challenges between central and regional governments. This fragmentation often leads to policy inconsistencies and implementation gaps that undermine overall state effectiveness.
+      </p>
+
+      <h3>Economic Disparities</h3>
+      <p>
+        Regional economic disparities remain a persistent challenge, with some provinces experiencing rapid growth while others lag behind. This economic imbalance creates social tensions and undermines national cohesion, requiring targeted intervention strategies to ensure equitable development across all regions.
+      </p>
+
+      <h3>Security Concerns</h3>
+      <p>
+        Indonesia's strategic location and diverse population create unique security challenges, including terrorism, separatist movements, and transnational crime. These threats require a comprehensive security approach that balances firm action with respect for human rights and democratic principles.
+      </p>
+
+      <h2 id="reconstruction-framework">Theoretical Framework for State Reconstruction</h2>
+      <p>
+        The theoretical foundation for state reconstruction in Indonesia draws from multiple disciplines, including political science, public administration, and development studies. This interdisciplinary approach recognizes that effective state reconstruction requires simultaneous attention to institutional, social, and economic dimensions.
+      </p>
+
+      <h3>Institutional Capacity Building</h3>
+      <p>
+        Building institutional capacity involves strengthening the effectiveness, accountability, and responsiveness of state institutions. This includes improving administrative systems, enhancing bureaucratic competence, and establishing robust mechanisms for transparency and accountability.
+      </p>
+
+      <ul>
+        <li>Streamlining bureaucratic processes to reduce inefficiency and corruption</li>
+        <li>Implementing performance-based management systems</li>
+        <li>Strengthening oversight mechanisms and accountability frameworks</li>
+        <li>Enhancing digital governance capabilities</li>
+      </ul>
+
+      <h3>Social Integration and Cohesion</h3>
+      <p>
+        Social integration represents a cornerstone of national resilience, requiring policies that promote unity while respecting diversity. This involves addressing historical grievances, promoting inclusive development, and fostering a shared national identity that transcends ethnic and religious differences.
+      </p>
+
+      <h2 id="implementation-strategies">Implementation Strategies</h2>
+      <p>
+        The implementation of state reconstruction requires a phased approach that prioritizes key areas while maintaining flexibility to adapt to changing circumstances. The following strategies have been identified as essential components of the reconstruction process.
+      </p>
+
+      <h3>Governance Reform</h3>
+      <p>
+        Governance reform focuses on improving the quality of public institutions and services. This includes reforms in the civil service, judicial system, and legislative processes to enhance their effectiveness and public trust.
+      </p>
+
+      <h3>Economic Development</h3>
+      <p>
+        Economic development strategies aim to create sustainable growth that benefits all segments of society. This involves promoting inclusive economic policies, supporting small and medium enterprises, and developing human capital through education and training programs.
+      </p>
+
+      <h3>Security Enhancement</h3>
+      <p>
+        Security enhancement involves both traditional security measures and human security initiatives. This includes strengthening defense capabilities while also addressing root causes of insecurity such as poverty, social exclusion, and environmental degradation.
+      </p>
+
+      <h2 id="case-studies">Case Studies and Empirical Evidence</h2>
+      <p>
+        This section examines specific examples of successful state reconstruction initiatives in Indonesia, analyzing the factors that contributed to their success and the lessons learned from their implementation.
+      </p>
+
+      <h3>Aceh Peace Process</h3>
+      <p>
+        The Aceh peace process represents one of Indonesia's most successful state reconstruction efforts, transforming a conflict-affected region into a stable and prosperous province. The process demonstrates the importance of addressing both security concerns and underlying grievances through comprehensive political and economic reforms.
+      </p>
+
+      <h3>Digital Governance Initiatives</h3>
+      <p>
+        Indonesia's digital governance initiatives, including the implementation of e-government services and digital identity systems, showcase how technology can enhance state capacity and improve service delivery. These initiatives have significantly reduced bureaucratic inefficiencies and increased public satisfaction with government services.
+      </p>
+
+      <h2 id="future-implications">Future Implications and Recommendations</h2>
+      <p>
+        The success of state reconstruction in Indonesia has significant implications for national resilience and regional stability. The following recommendations emerge from this analysis as critical for sustaining reconstruction efforts.
+      </p>
+
+      <h3>Continuous Adaptation</h3>
+      <p>
+        State reconstruction must be viewed as an ongoing process rather than a one-time intervention. This requires building adaptive capacity within institutions and maintaining flexibility to respond to emerging challenges and opportunities.
+      </p>
+
+      <h3>Regional Cooperation</h3>
+      <p>
+        Indonesia's reconstruction efforts can benefit from regional cooperation, particularly in areas such as counter-terrorism, economic integration, and environmental protection. This cooperation can enhance national resilience while contributing to regional stability.
+      </p>
+
+      <h2 id="conclusion">Conclusion</h2>
+      <p>
+        The reconstruction of the Indonesian state represents a complex but essential undertaking for optimizing national resilience. Success requires a comprehensive approach that addresses institutional, social, and economic dimensions simultaneously while maintaining democratic principles and respect for diversity.
+      </p>
+
+      <p>
+        The evidence presented in this research demonstrates that state reconstruction is not only possible but necessary for Indonesia's continued development and stability. The key lies in maintaining political commitment, ensuring adequate resources, and fostering broad-based participation in the reconstruction process.
+      </p>
+
+      <p>
+        As Indonesia continues to evolve as a democratic nation, the lessons learned from state reconstruction efforts will prove invaluable for other developing countries facing similar challenges. The Indonesian experience offers both inspiration and practical guidance for those seeking to build more resilient and effective states.
+      </p>
+    </article>
+
+    <!-- Original Source Link -->
+<div class="source-link bg-blue-50 border border-blue-200 rounded-lg p-4 mb-8">
+  <h4 class="font-semibold text-blue-800 mb-2">Original Source</h4>
+  <p class="text-sm mb-2">This article is adapted from the original research:</p>
+  <a href="https://cyberleninka.ru/article/n/factors-affecting-financial-decision-making-the-women-lecture-s-perspective" 
+     target="_blank" 
+     rel="noopener noreferrer"
+     class="text-blue-600 hover:text-blue-800 hover:underline flex items-center">
+    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+    </svg>
+    Factors Affecting Financial Decision Making: The Women Lecturer's Perspective
+  </a>
+</div>
+
+    
+
+    <!-- Related Articles -->
+    <div class="related-articles">
+      <h3 class="text-2xl font-bold mb-4 text-[#042338]">Related Articles</h3>
+      
+      <div class="related-article-card">
+        <h4 class="font-bold text-lg mb-2">Governance and Democracy in Southeast Asia</h4>
+        <p class="text-gray-600 mb-2">An analysis of democratic transitions and their impact on regional stability and development.</p>
+        <div class="flex justify-between items-center">
+          <span class="text-sm text-gray-500">BRIGHT Edition 2020</span>
+          <a href="#" class="text-[#FF9907] hover:underline">Read Article →</a>
+        </div>
+      </div>
+
+      <div class="related-article-card">
+        <h4 class="font-bold text-lg mb-2">Digital Transformation in Public Service</h4>
+        <p class="text-gray-600 mb-2">Exploring how digital technologies are reshaping government-citizen interactions in Indonesia.</p>
+        <div class="flex justify-between items-center">
+          <span class="text-sm text-gray-500">BRIGHT Edition 2021</span>
+          <a href="#" class="text-[#FF9907] hover:underline">Read Article →</a>
+        </div>
+      </div>
+
+      <div class="related-article-card">
+        <h4 class="font-bold text-lg mb-2">National Security in the 21st Century</h4>
+        <p class="text-gray-600 mb-2">Contemporary security challenges and the evolution of defense strategies in Indonesia.</p>
+        <div class="flex justify-between items-center">
+          <span class="text-sm text-gray-500">BRIGHT Edition 2022</span>
+          <a href="#" class="text-[#FF9907] hover:
