@@ -1,28 +1,63 @@
 # 1. Architecture & Environment
 
-## 1.1. Project Overview
-Project ini adalah **Custom WordPress Theme** yang dibangun dari awal (*from scratch*). Tema ini dirancang dengan pendekatan *pure code* untuk memaksimalkan performa dan meminimalisir ketergantungan (*dependencies*).
+## 1.1. Technical Stack
+| Component | Specification | Notes |
+| :--- | :--- | :--- |
+| **Server Stack** | **FlyEnv** | Used as All-in-One Local Development Environment. |
+| **PHP Version** | **8.x** | Modern syntax supported. |
+| **Database** | MySQL / MariaDB | Standard WP Tables only. |
+| **Frontend CSS** | **Hybrid (Tailwind + Bootstrap + Native)** | See Section 1.3 for conflict warnings. |
+| **Frontend JS** | Vanilla JS + GSAP | Ad-hoc scripts per page. |
 
-**Karakteristik Utama:**
-* **No Child Theme:** Tema berdiri sendiri sebagai *parent theme*.
-* **No Page Builders:** Layout dibangun menggunakan HTML/CSS/PHP manual, bukan Elementor/Divi.
-* **No Generator Plugins:** Custom Post Types (CPT) dan metabox dibuat manual tanpa plugin seperti CPT UI atau ACF.
+## 1.2. Development Environment (Setup)
+Project ini dikembangkan menggunakan **FlyEnv**.
+1.  **Requirement:** Install FlyEnv pada mesin lokal.
+2.  **PHP Config:** Pastikan environment diset ke PHP 8.x.
+3.  **Build Tools:** **None**. Project ini tidak menggunakan NPM/Webpack. Semua aset bersifat statis atau dipanggil via CDN.
 
-## 1.2. Tech Stack
-* **Core:** WordPress (Self-Hosted).
-* **Languages:** PHP Native, HTML5, CSS3, JavaScript (Vanilla/jQuery bawaan WP).
-* **Database:** MySQL/MariaDB.
-* **Development Flow:** Localhost -> Production.
+## 1.3. Frontend Architecture (CRITICAL READ)
+Pengembangan frontend menggunakan pendekatan **Hybrid-Mix**. Developer harus berhati-hati terhadap *specificity wars* (tabrakan style).
 
-## 1.3. Code Organization (Important!)
-Berbeda dengan struktur tema modular pada umumnya, tema ini menggunakan pendekatan **Centralized Logic**.
+* **CSS Frameworks:**
+    * **Tailwind CSS:** Loaded via CDN (Enqueued in `functions.php`).
+    * **Bootstrap:** Local Files (Located in `/assets/css/`, Enqueued globally).
+    * **Native CSS:** Custom style manual.
+    * **⚠️ Warning:** Styling tidak konsisten. Beberapa elemen menggunakan *utility classes* (Tailwind), beberapa menggunakan komponen Bootstrap, dan lainnya CSS murni. Jika styling tidak berubah, cek inspect element untuk melihat *override*.
 
-* **`functions.php`:** File ini bertindak sebagai pusat kontrol tunggal.
-    * Semua kode backend, registrasi CPT ("Writers", "Tim BRIGHT"), *enqueue scripts*, dan *custom hooks* berada di file ini.
-    * **Note:** Kode tidak dipecah ke dalam folder `/inc` atau file terpisah. Gunakan fitur *search* (Ctrl+F) untuk menavigasi fungsi tertentu.
+* **JavaScript Implementation:**
+    * **Library:** GSAP (GreenSock) digunakan untuk animasi minor.
+    * **Structure:** Tidak ada file bundle JS utama (`main.js`). Script logika seringkali bersifat spesifik per halaman (*per-page basis*).
 
-## 1.4. Installation & Setup
-1.  **Prerequisites:** Local server (LocalWP/XAMPP) dengan PHP 7.4+.
-2.  **Installation:**
-    * Salin folder tema ke direktori `/wp-content/themes/`.
-    * Aktifkan melalui Dashboard WP > Appearance > Themes.
+## 1.4. Asset Loading Strategy
+Pemuatan aset (CSS/JS/Fonts) dilakukan melalui dua pintu:
+1.  **Global Enqueue (`functions.php`):** Untuk Tailwind (CDN), Bootstrap, FontAwesome, dan CSS utama.
+2.  **Hardcoded Tags:** Cek file `header.php` atau template page spesifik. Beberapa script/style mungkin di-*inject* langsung menggunakan tag `<link>` atau `<script>` manual.
+
+## 1.5. Backend Data Logic
+* **Custom Post Types:** Didefinisikan manual di `functions.php`.
+* **Custom Fields:** Menggunakan Native WordPress **Meta Box API** (`add_meta_box`). Data disimpan dalam tabel `wp_postmeta` standar.
+
+# 2. Theme Structure & Frontend Hierarchy
+
+## 2.1. Directory Map
+Struktur tema menggunakan pendekatan *flat* untuk template utama, dengan pemisahan aset dan logika tambahan (`/inc`).
+
+```text
+/theme-root/
+├── 404.php                 # Error handling page
+├── about.php               # [Page Template] About Us + Section "Tim BRIGHT"
+├── archive-writer.php      # [Page Template] Page Author (List of Writers)
+├── category.php            # [Native] Topic Details (Archive Category)
+├── front-page.php          # [Native/Template] Homepage
+├── functions.php           # Core Logic (Monolithic Base)
+├── header.php              # Global Header Section
+├── index.html              # Fallback/Requirement File
+├── search.php              # [Native] Search Result
+├── single.php              # [Native] Default Article Content
+├── style.css               # Global Styling
+├── template-writer.php     # [Template] Single Writer Bio/Subpage
+├── topics.php              # [Page Template] Base Topics Landing Page
+├── assets/                 # Static Assets (img, css, js, content)
+└── inc/                    # Includes
+    ├── assets.php          # Enqueue Scripts & Styles
+    └── (AJAX Handler)      # Asynchronous request logic
